@@ -1,7 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:foodapp/BottomBar/BottomBar.dart';
 import 'package:foodapp/ReviewPage/ReviewInputScreen.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../DetailProductPage/DetailProductPage.dart';
+import '../SearchFood/SearchFood.dart';
 
 class OrderHistoryScreen extends StatefulWidget {
   const OrderHistoryScreen({super.key});
@@ -19,6 +26,39 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
     });
   }
 
+  List<Map<String, dynamic>> _data = [];
+
+  Future<void> fetchData() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? IDUser = prefs.getString('IDUser') ?? '';
+      final response = await http.get(
+        Uri.parse('http://10.0.2.2:2953/orders/list/$IDUser'),
+      );
+
+      if (response.statusCode == 200) {
+        final List<Map<String, dynamic>> data =
+            List<Map<String, dynamic>>.from(jsonDecode(response.body)["data"]);
+        setState(() {
+          _data = data;
+        });
+      } else {
+        setState(() {
+          _data = [];
+        });
+        throw Exception('Failed to load data');
+      }
+    } catch (error) {
+      print("Error: $error");
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +72,16 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SvgPicture.asset("assets/vectors/searchIcon.svg"),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SearchFoodScreen(),
+                          ),
+                        );
+                      },
+                      child: SvgPicture.asset("assets/vectors/searchIcon.svg")),
                   const Text(
                     "ORDER HISTORY",
                     style: TextStyle(
@@ -50,18 +99,30 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
           Expanded(
             flex: 1,
             child: Container(
-              color: Color.fromRGBO(250, 240, 240, 1),
-              child: ListView(
-                children: const [
-                  ListOrderHistory(),
-                  ListOrderHistory(),
-                  ListOrderHistory(),
-                  ListOrderHistory(),
-                  ListOrderHistory(),
-                  ListOrderHistory(),
-                  ListOrderHistory(),
-                ],
-              ),
+              color: const Color.fromRGBO(250, 240, 240, 1),
+              child: _data.isNotEmpty
+                  ? ListView.builder(
+                      itemCount: _data.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        final itemOrder = _data[index];
+                        return ListOrderHistory(
+                          orderID: itemOrder['order_id'],
+                          foodID: itemOrder['food_id'],
+                          name: itemOrder['name'],
+                          ingredients: itemOrder['ingredients'],
+                          imageUrl: itemOrder['img_thumbnail'],
+                          orderDatetime:
+                              (itemOrder['order_datetime']).toString(),
+                          quantity: itemOrder['quantity'],
+                          price: double.parse(itemOrder['price']),
+                          totalPrice: double.parse(itemOrder['total_price']),
+                        );
+                      },
+                    )
+                  : const Center(
+                      child: Text('No order available'),
+                    ),
             ),
           ),
           BottomBar(tab: selectedTab, changeTab: changeTab)
@@ -72,8 +133,28 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
 }
 
 class ListOrderHistory extends StatelessWidget {
+  final int orderID;
+  final int foodID;
+  final String name;
+  final String ingredients;
+  final String imageUrl;
+  final String orderDatetime;
+  final int quantity;
+  final double price;
+  final double totalPrice;
+
+  // Constructor
   const ListOrderHistory({
     super.key,
+    required this.orderID,
+    required this.foodID,
+    required this.name,
+    required this.ingredients,
+    required this.imageUrl,
+    required this.orderDatetime,
+    required this.quantity,
+    required this.price,
+    required this.totalPrice,
   });
 
   @override
@@ -107,25 +188,59 @@ class ListOrderHistory extends StatelessWidget {
                     children: [
                       Expanded(
                         flex: 1,
-                        child: ClipRRect(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(15)),
-                          child:
-                              Image.asset("assets/images/food_thumbnail.png"),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    DetailProductScreen(idProduct: foodID),
+                              ),
+                            );
+                          },
+                          child: ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(15)),
+                            child: Image.network(
+                              imageUrl,
+                              height: 80,
+                              width: 100,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
                       ),
                       Expanded(
-                        flex: 4,
+                        flex: 3,
                         child: Padding(
-                          padding: EdgeInsets.fromLTRB(14, 3, 0, 0),
+                          padding: const EdgeInsets.fromLTRB(14, 3, 0, 0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                "Bánh mỳ Hamburgers",
-                                style: TextStyle(
+                              Text(
+                                name,
+                                style: const TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 2),
+                                child: Text(
+                                  ingredients,
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: Color.fromRGBO(149, 149, 149, 1)),
+                                ),
+                              ),
+                              Text(
+                                "\$ $price",
+                                style: const TextStyle(
+                                  color: Color.fromRGBO(219, 22, 110, 1),
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                               const Padding(
@@ -142,13 +257,14 @@ class ListOrderHistory extends StatelessWidget {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) =>
-                                                ReviewInputScreen(), // Replace ReviewScreen with your desired screen
+                                            builder: (context) => ReviewInputScreen(
+                                                idFood:
+                                                    foodID), // Replace ReviewScreen with your desired screen
                                           ),
                                         );
                                       },
                                       child: const Text(
-                                        "Đánh giá",
+                                        "Rate",
                                         style: TextStyle(
                                           color:
                                               Color.fromRGBO(219, 22, 110, 1),
@@ -182,11 +298,12 @@ class ListOrderHistory extends StatelessWidget {
                                 children: [
                                   SvgPicture.asset(
                                       'assets/vectors/listIcon.svg'),
-                                  const Padding(
-                                    padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(8, 0, 0, 0),
                                     child: Text(
-                                      "28 Nov 2021 10 : 32 AM",
-                                      style: TextStyle(
+                                      orderDatetime,
+                                      style: const TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w400,
                                       ),
@@ -196,10 +313,10 @@ class ListOrderHistory extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const Column(
+                      Column(
                         children: [
-                          Text("\$ 332.00",
-                              style: TextStyle(
+                          Text("\$ $totalPrice",
+                              style: const TextStyle(
                                   color: Color.fromRGBO(219, 22, 110, 1),
                                   fontSize: 17,
                                   fontWeight: FontWeight.w600)),

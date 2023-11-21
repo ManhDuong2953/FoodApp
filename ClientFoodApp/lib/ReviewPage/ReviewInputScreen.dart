@@ -1,21 +1,69 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:foodapp/OrderHistoryPage/OrderHistoryPage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class ReviewInputScreen extends StatefulWidget {
-  const ReviewInputScreen({Key? key}) : super(key: key);
+  final int idFood;
+
+  const ReviewInputScreen({Key? key, required this.idFood}) : super(key: key);
 
   @override
   _ReviewInputScreenState createState() => _ReviewInputScreenState();
 }
 
 class _ReviewInputScreenState extends State<ReviewInputScreen> {
-  double _rating = 0.0;
-  TextEditingController _reviewController = TextEditingController();
+  int _rating = 0;
+  int? _idFood;
+  final TextEditingController _reviewController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _idFood = widget.idFood;
+  }
+
+  Future<void> fetchData() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? IDUser = prefs.getString('IDUser') ?? '';
+      final Map<String, dynamic> dataReq = {
+        "food_id": _idFood,
+        "user_id": int.parse(IDUser),
+        "comment": _reviewController.text, // Fix this line
+        "rate": _rating
+      };
+      print(dataReq);
+      final response = await http.post(
+        Uri.parse('http://10.0.2.2:2953/reviews/post_reviews'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+        body: jsonEncode(dataReq), // No need for parentheses around dataReq
+      );
+
+      if (response.statusCode == 200) {
+        print("thành công");
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const OrderHistoryScreen()));
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (error) {
+      print("Error: $error");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(219, 22, 110, 1),
+        backgroundColor: const Color.fromRGBO(219, 22, 110, 1),
         title: const Text('Reviews'),
       ),
       body: ListView(
@@ -35,7 +83,7 @@ class _ReviewInputScreenState extends State<ReviewInputScreen> {
                     return GestureDetector(
                       onTap: () {
                         setState(() {
-                          _rating = index + 1.0;
+                          _rating = index + 1;
                         });
                       },
                       child: Icon(
@@ -61,14 +109,15 @@ class _ReviewInputScreenState extends State<ReviewInputScreen> {
                         'Write your comments about the dish in the box...',
                   ),
                 ),
+                const SizedBox(height: 10),
                 const SizedBox(height: 20),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromRGBO(219, 22, 110, 1),
+                      backgroundColor: const Color.fromRGBO(219, 22, 110, 1),
                       padding: const EdgeInsets.symmetric(
                           vertical: 10, horizontal: 20)),
                   onPressed: () {
-                    // Xử lý logic khi nút gửi được nhấn
+                    fetchData();
                   },
                   child: const Text('Submit your review '),
                 ),

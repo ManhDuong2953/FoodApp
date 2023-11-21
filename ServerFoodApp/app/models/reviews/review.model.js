@@ -2,7 +2,7 @@ import pool from "../../../configs/database/database.config";
 class Reviews {
     static listReviews = async (id) => {
         try {
-            const sql = "SELECT * FROM reviews WHERE food_id = ? ";
+            const sql = "SELECT u.name, u.avatar_thumbnail, r.reviews_datetime, r.rate, r.comment FROM reviews AS r INNER JOIN users AS u ON r.user_id = u.id WHERE r.food_id = ?;";
             const [result] = await pool.query(sql, [id]);
             if (result.length > 0) {
                 return result;

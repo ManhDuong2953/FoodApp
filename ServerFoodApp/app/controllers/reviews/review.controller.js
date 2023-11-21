@@ -22,6 +22,8 @@ export async function postReview(req, res) {
         comment: req.body.comment,
         rate: req.body.rate
     };
+
+    console.log(review);
     try {
         const data = await Reviews.uploadReviews(review);
         console.log(data);

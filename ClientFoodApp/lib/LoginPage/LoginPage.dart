@@ -40,10 +40,12 @@ class _LoginScreenState extends State<LoginScreen> {
       if (response.statusCode == 200) {
         var IDUser = resBody['data'].toString();
         print("Đăng nhập thành công ");
+
         SharedPreferences.setMockInitialValues(
             {}); // kiểm tra dữ liệu đầu vòa đã có chưa, không thì rỗng
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('IDUser', IDUser);
+
         if (IDUser != null) {
           Navigator.push(
             context,
@@ -136,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     "$_message",
                     overflow: TextOverflow.ellipsis,
                     maxLines: 4,
-                    style: TextStyle(color: Colors.red),
+                    style: const TextStyle(color: Colors.red),
                   ),
                   const SizedBox(
                     height: 15,

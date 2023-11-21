@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:foodapp/SearchFood/SearchFood.dart';
 import 'package:http/http.dart' as http;
+import '../DetailProductPage/DetailProductPage.dart';
+import '../SearchFood/SearchFood.dart';
 
 class SearchResultFoodScreen extends StatefulWidget {
-  final String? keyword;
+  final String keyword;
 
   const SearchResultFoodScreen({Key? key, required this.keyword})
       : super(key: key);
@@ -26,15 +26,15 @@ class _SearchResultFoodScreenState extends State<SearchResultFoodScreen> {
   Future<void> fetchData() async {
     try {
       final response = await http.post(
-          Uri.parse('http://10.0.2.2:2953/foods/search'),
-          headers: <String, String>{
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body: {
-            "keyword": "${widget.keyword}",
-          });
+        Uri.parse('http://10.0.2.2:2953/foods/search'),
+        headers: <String, String>{
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: {
+          "keyword": widget.keyword,
+        },
+      );
       if (response.statusCode == 200) {
-        // If the server returns a 200 OK response, parse the JSON data
         final List<Map<String, dynamic>> data =
             List<Map<String, dynamic>>.from(jsonDecode(response.body)["data"]);
 
@@ -42,6 +42,9 @@ class _SearchResultFoodScreenState extends State<SearchResultFoodScreen> {
           _data = data;
         });
       } else {
+        setState(() {
+          _data = [];
+        });
         throw Exception('Failed to load data');
       }
     } catch (error) {
@@ -64,8 +67,8 @@ class _SearchResultFoodScreenState extends State<SearchResultFoodScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               children: [
-                Expanded(
-                  flex: 1,
+                SizedBox(
+                  width: 50,
                   child: InkWell(
                     onTap: () {
                       Navigator.pop(context);
@@ -81,30 +84,40 @@ class _SearchResultFoodScreenState extends State<SearchResultFoodScreen> {
                   ),
                 ),
                 Expanded(
-                  flex: 7,
-                  child: TextField(
-                    onTap: () {
-                      Navigator.push(
+                    flex: 1,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const SearchFoodScreen()));
-                    },
-                    decoration: InputDecoration(
-                      filled: true,
-                      enabled: false,
-                      // không cho input
-                      fillColor: Colors.white,
-                      hintText: 'Search for address, food...',
-                      hintStyle: const TextStyle(color: Colors.grey),
-                      prefixIcon: const Icon(Icons.search, color: Colors.grey),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide.none,
+                            builder: (context) => const SearchFoodScreen(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Icon(Icons.search, color: Colors.grey),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 10),
+                                child: Text(
+                                  'Search for address, food...',
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      contentPadding: const EdgeInsets.all(10),
-                    ),
-                  ),
-                ),
+                    )),
               ],
             ),
           ),
@@ -112,29 +125,55 @@ class _SearchResultFoodScreenState extends State<SearchResultFoodScreen> {
             width: double.infinity,
             color: const Color.fromRGBO(172, 20, 88, 1),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            child: Text(
-              "Results for '$keywordSearch'",
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
+            child: Row(
+              children: [
+                const Text(
+                  "Results for ",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                Text(
+                  keywordSearch,
+                  style: const TextStyle(
+                    color: Colors.yellowAccent,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: _data.length,
-              itemBuilder: (context, index) {
-                final foodItem = _data[index];
-                return ItemListResultFood(
-                  id: foodItem['id'],
-                  name: foodItem['name'],
-                  description: foodItem['description'],
-                  ingredients: foodItem['ingredients'],
-                  imageUrl: foodItem['img_thumbnail'],
-                );
-              },
-            ),
+            child: _data.isNotEmpty
+                ? ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: _data.length,
+                    itemBuilder: (context, index) {
+                      final foodItem = _data[index];
+                      return ItemListResultFood(
+                        key: UniqueKey(),
+                        id: int.parse(foodItem['id'].toString()),
+                        name: foodItem['name'].toString(),
+                        description: foodItem['description'].toString(),
+                        ingredients: foodItem['ingredients'].toString(),
+                        imageUrl: foodItem['img_thumbnail'].toString(),
+                        avgRate: (foodItem["average_rating"] != null)
+                            ? double.parse(
+                                foodItem["average_rating"].toString())
+                            : 0.0,
+                        totalReview:
+                            int.parse(foodItem["total_reviews"].toString()) ??
+                                0,
+                      );
+                    },
+                  )
+                : const Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Text("No results available"),
+                  ),
           ),
         ],
       ),
@@ -143,26 +182,38 @@ class _SearchResultFoodScreenState extends State<SearchResultFoodScreen> {
 }
 
 class ItemListResultFood extends StatelessWidget {
-  final int? id;
-  final String? name;
-  final String? description;
-  final String? ingredients;
-  final String? imageUrl;
+  final int id;
+  final String name;
+  final String description;
+  final String ingredients;
+  final String imageUrl;
+  final double avgRate;
+  final int totalReview;
 
-  const ItemListResultFood({
-    super.key,
+  ItemListResultFood({
+    Key? key,
     required this.id,
     required this.name,
     required this.description,
     required this.ingredients,
     required this.imageUrl,
-  });
+    required this.avgRate,
+    required this.totalReview,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
       child: InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DetailProductScreen(idProduct: id),
+            ),
+          );
+        },
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -196,7 +247,7 @@ class ItemListResultFood extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.network(
-                        "$imageUrl",
+                        imageUrl,
                         fit: BoxFit.cover,
                         height: 200,
                       ),
@@ -210,8 +261,10 @@ class ItemListResultFood extends StatelessWidget {
                   bottomRight: Radius.circular(8),
                 ),
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 12,
+                  ),
                   color: Colors.white,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -220,9 +273,9 @@ class ItemListResultFood extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(bottom: 5),
+                            padding: const EdgeInsets.only(bottom: 5),
                             child: Text(
-                              "$name",
+                              name,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 3,
                               style: const TextStyle(
@@ -235,9 +288,9 @@ class ItemListResultFood extends StatelessWidget {
                       ),
                       Container(
                         alignment: Alignment.topLeft,
-                        margin: EdgeInsets.only(bottom: 8),
+                        margin: const EdgeInsets.only(bottom: 8),
                         child: Text(
-                          "$ingredients",
+                          ingredients,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 3,
                           style: const TextStyle(
@@ -250,40 +303,33 @@ class ItemListResultFood extends StatelessWidget {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          SvgPicture.asset(
-                            "assets/vectors/star_solid.svg",
-                            width: 12,
-                            height: 12,
-                          ),
-                          SvgPicture.asset(
-                            "assets/vectors/star_solid.svg",
-                            width: 12,
-                            height: 12,
-                          ),
-                          SvgPicture.asset(
-                            "assets/vectors/star_solid.svg",
-                            width: 12,
-                            height: 12,
-                          ),
-                          SvgPicture.asset(
-                            "assets/vectors/star_solid.svg",
-                            width: 12,
-                            height: 12,
-                          ),
-                          SvgPicture.asset(
-                            "assets/vectors/star_solid.svg",
-                            width: 12,
-                            height: 12,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8),
-                            child: Text(
-                              "443 reviews",
-                              style: const TextStyle(
-                                fontSize: 11,
-                                color: Color.fromRGBO(134, 134, 134, 1),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              for (int i = 0; i < 5; i++)
+                                Icon(
+                                  i < avgRate.round()
+                                      ? Icons.star
+                                      : Icons.star_border,
+                                  color: i < avgRate.round()
+                                      ? (avgRate - i >= 0.5)
+                                          ? Colors.red
+                                          : const Color.fromARGB(
+                                              255, 255, 88, 88)
+                                      : Colors.red,
+                                  size: 16,
+                                ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: Text(
+                                  "$totalReview reviews",
+                                  style: const TextStyle(
+                                    fontSize: 11,
+                                    color: Color.fromRGBO(134, 134, 134, 1),
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
                         ],
                       ),

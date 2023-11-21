@@ -1,16 +1,99 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:foodapp/OrderHistoryPage/OrderHistoryPage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class OrderScreen extends StatefulWidget {
-  const OrderScreen({Key? key}) : super(key: key);
+  final int idProduct;
+
+  const OrderScreen({
+    Key? key,
+    required this.idProduct,
+  }) : super(key: key);
 
   @override
   _OrderScreenState createState() => _OrderScreenState();
 }
 
 class _OrderScreenState extends State<OrderScreen> {
+  String _message = 'Đang xử lý đơn hàng...';
+  double _totalPrice = 0;
+  int? idUser;
+  int _quantity = 1;
+  int? _idProduct;
+  Map<String, dynamic> _data = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _idProduct = widget.idProduct;
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    try {
+      final response = await http.get(
+        Uri.parse('http://10.0.2.2:2953/foods/find/$_idProduct'),
+      );
+      if (response.statusCode == 200) {
+        // If the server returns a 200 OK response, parse the JSON data
+        final Map<String, dynamic> data = jsonDecode(response.body)["data"];
+        setState(() {
+          _data = data;
+          _totalPrice = double.parse(_data["price"]);
+        });
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (error) {
+      print("Error: $error");
+    }
+  }
+
   final TextEditingController _quantityController = TextEditingController();
 
+  Future<void> pushData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? IDUser = prefs.getString('IDUser') ?? '';
+    final Map<String, dynamic> dataReq = {
+      "food_id": _idProduct,
+      "user_id": int.parse(IDUser),
+      "quantity": _quantity,
+      "total_price": _totalPrice
+    };
+
+    final response = await http.post(
+      Uri.parse('http://10.0.2.2:2953/orders/post_orders'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Access-Control-Allow-Origin': '*',
+      },
+      body: jsonEncode(dataReq),
+    );
+
+    if (response.statusCode == 200) {
+      setState(() {
+        _message =
+            "Your order has been placed, please wait for the carrier's call!";
+      });
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const OrderHistoryScreen()));
+    } else {
+      setState(() {
+        _message =
+            "So sorry! Your order has been canceled due to an unknown error. Please re-order";
+      });
+      throw Exception('Failed to load data');
+    }
+  }
+
+  //
+  // double handlePrice(_quantity, _totalPrice){
+  //   return double.parse(int.parse(_quantityController) * _totalPrice)
+  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,13 +121,16 @@ class _OrderScreenState extends State<OrderScreen> {
               ],
             ),
           ),
+          Text(
+            _message,
+            style: const TextStyle(color: Colors.red),
+          ),
           Expanded(
             child: ListView(
               children: [
-                Image.asset("assets/images/orderbg.png"),
                 Container(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 40, horizontal: 17),
+                      const EdgeInsets.symmetric(vertical: 50, horizontal: 17),
                   child: Column(
                     children: [
                       Row(
@@ -52,34 +138,42 @@ class _OrderScreenState extends State<OrderScreen> {
                         children: [
                           Expanded(
                             flex: 1,
-                            child: ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(15)),
-                              child: Image.asset(
-                                  "assets/images/food_thumbnail.png"),
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 20.0),
+                              child: ClipRRect(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(15)),
+                                child: Image.network(
+                                  _data["img_thumbnail"],
+                                  fit: BoxFit.cover,
+                                  width: 80,
+                                  height: 80,
+                                ),
+                              ),
                             ),
                           ),
-                          const Expanded(
-                            flex: 4,
+                          Expanded(
+                            flex: 3,
                             child: Padding(
-                              padding: EdgeInsets.fromLTRB(14, 3, 0, 0),
+                              padding: const EdgeInsets.fromLTRB(14, 3, 0, 0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Bánh mỳ Hamburgers",
-                                    style: TextStyle(
+                                    _data["name"],
+                                    style: const TextStyle(
                                       fontSize: 17,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 4),
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 4),
                                     child: Text(
-                                      "Boneless Sour and Spicy Chicken",
+                                      _data["ingredients"],
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 3,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w400,
                                         color: Color.fromRGBO(149, 149, 149, 1),
@@ -87,10 +181,12 @@ class _OrderScreenState extends State<OrderScreen> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 4),
-                                    child: Text("\$ 332.00",
-                                        style: TextStyle(
-                                          color: Color.fromRGBO(219, 22, 110, 1),
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 4),
+                                    child: Text("\$ ${_data['price']}",
+                                        style: const TextStyle(
+                                          color:
+                                              Color.fromRGBO(219, 22, 110, 1),
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
                                         )),
@@ -104,8 +200,16 @@ class _OrderScreenState extends State<OrderScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: TextField(
+                          onChanged: (text) {
+                            setState(() {
+                              _quantity = int.parse(text);
+                              _totalPrice =
+                                  _quantity * double.parse(_data["price"]) +
+                                      1.5;
+                            });
+                          },
                           controller: _quantityController,
-                          keyboardType: TextInputType.datetime,
+                          keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
                               label: Text("Enter quantity"),
                               border: OutlineInputBorder(
@@ -118,12 +222,12 @@ class _OrderScreenState extends State<OrderScreen> {
                         color: Color.fromRGBO(200, 200, 200, 1),
                         thickness: 1.0,
                       ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 4),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
+                            const Text(
                               "Food price",
                               style: TextStyle(
                                 color: Color.fromRGBO(0, 0, 0, 1),
@@ -131,8 +235,8 @@ class _OrderScreenState extends State<OrderScreen> {
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                            Text("\$ 320.00",
-                                style: TextStyle(
+                            Text("\$ ${_data['price']}",
+                                style: const TextStyle(
                                   color: Color.fromRGBO(219, 22, 110, 1),
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -140,12 +244,12 @@ class _OrderScreenState extends State<OrderScreen> {
                           ],
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 4),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
+                            const Text(
                               "Quantity:",
                               style: TextStyle(
                                 color: Color.fromRGBO(0, 0, 0, 1),
@@ -153,8 +257,8 @@ class _OrderScreenState extends State<OrderScreen> {
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                            Text("x 3",
-                                style: TextStyle(
+                            Text("x $_quantity",
+                                style: const TextStyle(
                                   color: Color.fromRGBO(0, 0, 0, 1),
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -191,35 +295,18 @@ class _OrderScreenState extends State<OrderScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          const Text(
+                            "Total:",
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                           Column(
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.all(4),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                        'assets/vectors/listIcon.svg'),
-                                    const Padding(
-                                      padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
-                                      child: Text(
-                                        "28 Nov 2021 10 : 32 AM",
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          const Column(
-                            children: [
                               Text(
-                                "\$ 332.00",
-                                style: TextStyle(
+                                "\$ $_totalPrice",
+                                style: const TextStyle(
                                     color: Color.fromRGBO(219, 22, 110, 1),
                                     fontSize: 17,
                                     fontWeight: FontWeight.w600),
@@ -231,6 +318,12 @@ class _OrderScreenState extends State<OrderScreen> {
                     ],
                   ),
                 ),
+                Image.asset(
+                  "assets/images/orderbg.png",
+                  fit: BoxFit.cover,
+                  height: 300,
+                  alignment: Alignment.bottomCenter,
+                ),
               ],
             ),
           ),
@@ -239,7 +332,7 @@ class _OrderScreenState extends State<OrderScreen> {
             color: const Color.fromRGBO(219, 22, 110, 1),
             child: GestureDetector(
               onTap: () {
-                // Thực hiện hành động khi nút được nhấn
+                pushData();
               },
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,

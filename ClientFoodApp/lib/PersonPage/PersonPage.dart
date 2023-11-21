@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:foodapp/BottomBar/BottomBar.dart';
 import 'package:foodapp/OrderHistoryPage/OrderHistoryPage.dart';
-import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PersonScreen extends StatefulWidget {
   const PersonScreen({super.key});
@@ -19,6 +22,32 @@ class _PersonScreenState extends State<PersonScreen> {
     });
   }
 
+  Map<String, dynamic> _data = {};
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? IDUser = prefs.getString('IDUser') ?? '';
+    final response =
+        await http.get(Uri.parse('http://10.0.2.2:2953/users/info/$IDUser'));
+
+    if (response.statusCode == 200) {
+      // If the server returns a 200 OK response, parse the JSON data
+      final Map<String, dynamic> data = jsonDecode(response.body)["data"];
+      setState(() {
+        _data = data;
+      });
+    } else {
+      // If the server did not return a 200 OK response,
+      // throw an exception.
+      throw Exception('Failed to load data');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +57,7 @@ class _PersonScreenState extends State<PersonScreen> {
             flex: 3,
             child: Container(
               width: double.infinity,
-              padding: EdgeInsets.all(25),
+              padding: const EdgeInsets.all(25),
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image:
@@ -51,31 +80,31 @@ class _PersonScreenState extends State<PersonScreen> {
                       ),
                     ],
                   ),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      CircleAvatar(
-                        backgroundImage: AssetImage(
-                          "assets/images/avtuser.png",
-                        ),
+                      const CircleAvatar(
+                        backgroundImage: NetworkImage(
+                            // _data["avatar_thumbnail"] ??
+                            'https://static.vecteezy.com/system/resources/previews/000/425/647/original/avatar-icon-vector-illustration.jpg'),
                         radius: 35,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Erik Walters",
-                            style: TextStyle(
+                            _data["name"],
+                            style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700),
                           ),
                           Text(
-                            "0123456789",
-                            style: TextStyle(
+                            _data["phone_number"],
+                            style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400),
@@ -140,11 +169,6 @@ class _PersonScreenState extends State<PersonScreen> {
                   color: Color.fromRGBO(239, 239, 239, 1),
                   thickness: 20,
                 ),
-                Text(
-                  _getCurrentTime(),
-                  style: const TextStyle(
-                      fontSize: 24, fontWeight: FontWeight.bold),
-                ),
               ],
             ),
           ),
@@ -152,16 +176,5 @@ class _PersonScreenState extends State<PersonScreen> {
         ],
       ),
     );
-  }
-}
-
-String _getCurrentTime() {
-  try {
-    var now = DateTime.now();
-    var formatter = DateFormat('HH:mm:ss dd/mm/yyyy');
-    return formatter.format(now);
-  } catch (e) {
-    print('Lỗi: $e');
-    return 'Không thể lấy thời gian';
   }
 }

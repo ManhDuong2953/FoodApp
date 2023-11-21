@@ -3,6 +3,6 @@ import { userLogin, userSignup,getUserByID } from '../../controllers/users/user.
 export default function UserRouter(app) {
     app.post("/login", userLogin);
     app.post("/signup", userSignup);
-    app.get("/:id", getUserByID);
+    app.get("/info/:id", getUserByID);
     return app;
 }

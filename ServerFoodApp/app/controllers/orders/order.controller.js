@@ -21,6 +21,7 @@ export async function postOrder(req, res) {
         quantity: req.body.quantity,
         total_price: req.body.total_price
     };
+    console.log(order);
     try {
         const data = await Orders.uploadOrder(order);
         console.log(data);

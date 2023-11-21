@@ -41,7 +41,7 @@ class _SignupScreenState extends State<SignupScreen> {
       if (response.statusCode == 200) {
         // Xử lý khi đăng ký thành công
         setState(() {
-          _message = '${jsonDecode(response.body)['message'].toString()}';
+          _message = jsonDecode(response.body)['message'].toString();
         });
         Navigator.push(
           context,
@@ -52,7 +52,7 @@ class _SignupScreenState extends State<SignupScreen> {
       } else {
         // Xử lý khi có lỗi từ backend
         setState(() {
-          _message = '${jsonDecode(response.body)['message'].toString()}';
+          _message = jsonDecode(response.body)['message'].toString();
         });
       }
     } catch (e) {

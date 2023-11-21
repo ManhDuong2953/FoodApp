@@ -23,7 +23,7 @@ class _SearchPageState extends State<SearchPage> {
     String? IDUser = prefs.getString('IDUser') ??
         ''; // Nếu không có giá trị, sẽ trả về chuỗi rỗng
     final response =
-        await http.get(Uri.parse('http://10.0.2.2:2953/users/$IDUser'));
+        await http.get(Uri.parse('http://10.0.2.2:2953/users/info/$IDUser'));
 
     if (response.statusCode == 200) {
       // If the server returns a 200 OK response, parse the JSON data
@@ -120,82 +120,45 @@ class _SearchPageState extends State<SearchPage> {
                     children: [
                       Expanded(
                         flex: 5,
-                        child: InkWell(
+                        child: GestureDetector(
                           onTap: () {
+                            // Chuyển hướng sang trang khác khi TextField được nhấp vào
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const SearchFoodScreen()));
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const SearchFoodScreen()),
+                            );
                           },
-                          child: const TextField(
-                            decoration: InputDecoration(
-                              hintText: "Search for address, food...",
-                              prefixIcon:
-                                  Icon(Icons.search, color: Colors.grey),
-                              hintStyle: TextStyle(
-                                color: Color.fromRGBO(138, 138, 138, 1),
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                              ),
-                              filled: true,
-                              fillColor: Colors.white,
-                              contentPadding: EdgeInsets.all(5),
-                              border: InputBorder.none,
-                              // Loại bỏ viền ngoại
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.transparent,
-                                  // Đặt màu viền khi focus là màu trong suốt
-                                  width: 0, // Đặt độ dày của viền là 0
-                                ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.transparent,
-                                  // Đặt màu viền khi không focus là màu trong suốt
-                                  width: 0, // Đặt độ dày của viền là 0
-                                ),
-                              ),
+                          child: Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              color: Colors.white,
                             ),
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18,
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                const Icon(Icons.search, color: Colors.grey),
+                                const SizedBox(width: 8.0),
+                                const Expanded(
+                                  child: Text(
+                                    "Search for address, food...",
+                                    style: TextStyle(
+                                      color: Color.fromRGBO(138, 138, 138, 1),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                                SvgPicture.asset(
+                                    "assets/vectors/locationSVGIcon.svg"),
+                              ],
                             ),
                           ),
                         ),
                       ),
-                      Expanded(
-                          flex: 1,
-                          child: SvgPicture.asset(
-                              "assets/vectors/locationSVGIcon.svg"))
                     ],
-                  ),
-                ),
-              ),
-              Container(
-                height: 50,
-                width: double.infinity,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
-                  child: ElevatedButton(
-                    onPressed: () => {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SearchFoodScreen()))
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromRGBO(219, 22, 110, 1),
-                    ),
-                    child: const Text(
-                      "SEARCH",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500),
-                    ),
                   ),
                 ),
               ),
