@@ -24,7 +24,7 @@ pids
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+
 
 # VS Code directories
 .vscode/
