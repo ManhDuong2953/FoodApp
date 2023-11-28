@@ -349,30 +349,36 @@ class _OrderScreenState extends State<OrderScreen> {
               ],
             ),
           ),
-          Container(
-            height: 50,
-            color: const Color.fromRGBO(219, 22, 110, 1),
-            child: GestureDetector(
-              onTap: () {
-                pushData();
-              },
+          GestureDetector(
+            onTap: () {
+              pushData();
+            },
+            child: Container(
+              height: 50,
+              color: const Color.fromRGBO(219, 22, 110, 1),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  loadOrderStatus == LoadStatus.loading
-                      ? const Center(
-                          child: CircularProgressIndicator(color: Colors.white))
-                      : loadOrderStatus == LoadStatus.success
-                          ? const Text(
-                              'PAYMENT NOW',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 14),
-                            )
-                          : const Text(
-                              'ERROR SERVER! PLEASE BACK AGAIN',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 14),
-                            ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      loadOrderStatus == LoadStatus.loading
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                                  color: Colors.white))
+                          : loadOrderStatus == LoadStatus.success
+                              ? const Text(
+                                  'PAYMENT NOW',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 14),
+                                )
+                              : const Text(
+                                  'ERROR SERVER! PLEASE BACK AGAIN',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 14),
+                                ),
+                    ],
+                  ),
                 ],
               ),
             ),
