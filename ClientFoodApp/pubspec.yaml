@@ -1,5 +1,5 @@
 name: foodapp
-description: A new Flutter project.
+description: FoodPanda - Ứng dụng đặt đồ ăn nhanh
 
 publish_to: "none"
 version: 1.0.0+1
@@ -11,18 +11,21 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_svg: ^1.0.3
-  cupertino_icons: ^1.0.2
-  isar: ^3.1.0+1
   intl: ^0.17.0
   http: ^0.13.3
-  dio: ^4.0.0
   shared_preferences: ^2.0.6
+  flutter_dotenv: ^5.0.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
   flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.9.2
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logoFoodPanda.png"
 
 flutter:
   uses-material-design: true
@@ -30,6 +33,7 @@ flutter:
     - assets/images/
     - assets/vectors/
     - assets/bottomBar/
+    - .env
 
 
 

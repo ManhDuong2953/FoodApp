@@ -34,7 +34,7 @@ export const userSignup = async (req, res) => {
                 phone_number: req.body.phone_number,
                 address: req.body.address,
                 password: req.body.password,
-                avatar_thumbnail: "https://static.vecteezy.com/system/resources/previews/000/425/647/original/avatar-icon-vector-illustration.jpg",
+                avatar_thumbnail: "https://cdn-icons-png.flaticon.com/512/186/186313.png",
             });
 
             res.status(200).json({ success: true, message: "Đăng ký thành công" });

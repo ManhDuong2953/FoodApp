@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:foodapp/HomePage/HomePage.dart';
-import 'package:foodapp/LoginPage/LoginPage.dart';
-import 'package:foodapp/OrderPage/OrderPage.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:foodapp/screen/HomePage/HomePage.dart';
+import 'package:foodapp/screen/LoginPage/LoginPage.dart';
 
-void main() {
+
+Future<void> main() async {
+  await dotenv.load();
   runApp(const MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
