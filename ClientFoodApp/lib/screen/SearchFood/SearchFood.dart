@@ -48,23 +48,18 @@ class _SearchFoodScreenState extends State<SearchFoodScreen> {
           setState(() {
             loadStatus = LoadStatus.success;
             foodList = data.map((item) => Food.fromJson(item)).toList();
-
-            print(foodList[0].name);
           });
         } else {
-          print('Received empty data array');
+          throw Exception('Failed to load data');
         }
       } else {
-        setState(() {
-          loadStatus = LoadStatus.failure;
-        });
-
         throw Exception('Failed to load data');
       }
     } catch (error) {
       setState(() {
         loadStatus = LoadStatus.failure;
       });
+      print("Error: $error");
     }
   }
 

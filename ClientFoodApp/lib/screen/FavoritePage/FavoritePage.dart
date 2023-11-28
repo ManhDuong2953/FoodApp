@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:foodapp/api/food.api.dart';
+import 'package:foodapp/models/enums/loadStatus.dart';
 import 'package:foodapp/widgets/BottomBar/BottomBar.dart';
 import 'package:foodapp/screen/SearchFood/SearchFood.dart';
 import 'package:foodapp/widgets/ItemListFavorite/ItemListFavorite.dart';
@@ -19,6 +20,7 @@ class FavoritePageScreen extends StatefulWidget {
 class _FavoritePageScreenState extends State<FavoritePageScreen> {
   int selectedTab = 3;
   List<Food> foodEntity = [];
+  LoadStatus loadStatus = LoadStatus.loading;
 
   Future<void> fetchData() async {
     try {
@@ -31,17 +33,26 @@ class _FavoritePageScreenState extends State<FavoritePageScreen> {
         final List<Map<String, dynamic>> data =
             List<Map<String, dynamic>>.from(jsonDecode(response.body)["data"]);
 
-        setState(() {
-          foodEntity = data.map((item) => Food.fromJson(item)).toList();
-        });
+        if (data.isNotEmpty) {
+          setState(() {
+            loadStatus = LoadStatus.success;
+            foodEntity = data.map((item) => Food.fromJson(item)).toList();
+          });
+        } else {
+          print("không có data");
+          throw Exception('Failed to load data');
+        }
       } else {
-        setState(() {
-          // _data = [];
-        });
+        print("Lỗi 404");
+
         throw Exception('Failed to load data');
       }
     } catch (error) {
-      print("Error: $error");
+      print("Lỗi fetch: $error");
+
+      setState(() {
+        loadStatus = LoadStatus.failure;
+      });
     }
   }
 
@@ -65,44 +76,16 @@ class _FavoritePageScreenState extends State<FavoritePageScreen> {
           Container(
             height: 75,
             color: const Color.fromRGBO(219, 22, 110, 1),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 17),
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 17),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Expanded(
-                    flex: 1,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SearchFoodScreen(),
-                          ),
-                        );
-                      },
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SearchFoodScreen(),
-                            ),
-                          );
-                        },
-                        child:
-                            SvgPicture.asset("assets/vectors/searchIcon.svg"),
-                      ),
-                    ),
-                  ),
-                  const Expanded(
-                    flex: 20,
-                    child: Text(
-                      "THE MOST FAVORITES",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white),
-                    ),
+                  Text(
+                    "THE MOST FAVORITES",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white),
                   )
                 ],
               ),
@@ -110,30 +93,34 @@ class _FavoritePageScreenState extends State<FavoritePageScreen> {
           ),
           Expanded(
             flex: 1,
-            child: Container(
-              color: const Color.fromRGBO(250, 240, 240, 1),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: foodEntity.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final itemFavorite = foodEntity[index];
-                    return ItemListFavorites(
-                      id: itemFavorite.id!,
-                      name: itemFavorite.name!,
-                      price: itemFavorite.price!,
-                      ingredients: itemFavorite.ingredients!,
-                      description: itemFavorite.description!,
-                      imgThumbnail: itemFavorite.ingredients!,
-                      totalOrders: itemFavorite.totalOrders!,
-                      averageRating: itemFavorite.averageRating!,
-                      totalReviews: itemFavorite.totalReviews!,
-                    );
-                  },
-                ),
-              ),
-            ),
+            child: loadStatus == LoadStatus.loading
+                ? const Center(child: CircularProgressIndicator())
+                : loadStatus == LoadStatus.failure
+                    ? const Center(child: Text("No food available"))
+                    : Container(
+                        color: const Color.fromRGBO(250, 240, 240, 1),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: foodEntity.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final itemFavorite = foodEntity[index];
+                              return ItemListFavorites(
+                                id: itemFavorite.id!,
+                                name: itemFavorite.name!,
+                                price: itemFavorite.price!,
+                                ingredients: itemFavorite.ingredients!,
+                                description: itemFavorite.description!,
+                                imgThumbnail: itemFavorite.imgThumbnail!,
+                                totalOrders: itemFavorite.totalOrders!,
+                                averageRating: itemFavorite.averageRating!,
+                                totalReviews: itemFavorite.totalReviews!,
+                              );
+                            },
+                          ),
+                        ),
+                      ),
           ),
           BottomBar(tab: selectedTab, changeTab: changeTab)
         ],

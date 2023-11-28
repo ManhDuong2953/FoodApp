@@ -57,6 +57,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
         throw Exception('Failed to load data');
       }
     } catch (error) {
+      print(error);
       setState(() {
         loadStatus = LoadStatus.failure;
       });

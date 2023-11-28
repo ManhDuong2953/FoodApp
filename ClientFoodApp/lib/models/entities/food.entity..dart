@@ -24,13 +24,14 @@ class Food {
   Food.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'] ?? "Tên món không khả dụng";
-    price = double.parse(json['price'] ?? '0');
+    price = double.parse(json['price'] ?? '0.0');
     ingredients = json['ingredients'] ?? "";
     description = json['description'] ?? "";
     imgThumbnail = json['img_thumbnail'] ?? "assets/images/errImg.jpg";
-    averageRating = json['average_rating'] ?? 0;
-    totalReviews = json['total_reviews'] ?? 0;
-    totalOrders = json['total_orders'] ?? 0;
+    averageRating =
+        double.parse(json['price'] != "null" ? json['price'] : '0.0');
+    totalReviews = int.parse(json['total_reviews'].toString()) ?? 0;
+    totalOrders = int.parse(json['total_orders'].toString()) ?? 0;
   }
 
   Map<String, dynamic> toJson() {

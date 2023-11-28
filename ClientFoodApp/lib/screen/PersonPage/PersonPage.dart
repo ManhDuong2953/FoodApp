@@ -97,10 +97,9 @@ class _PersonScreenState extends State<PersonScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                const CircleAvatar(
+                                CircleAvatar(
                                   backgroundImage: NetworkImage(
-                                      // _data["avatar_thumbnail"] ??
-                                      'https://static.vecteezy.com/system/resources/previews/000/425/647/original/avatar-icon-vector-illustration.jpg' ??
+                                      "${userEntity?.avatarThumbnail}" ??
                                           'https://e7.pngegg.com/pngimages/321/641/png-clipart-load-the-map-loading-load.png'),
                                   radius: 35,
                                 ),

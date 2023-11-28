@@ -21,6 +21,7 @@ class Food {
             const query = "SELECT F.id AS id, F.name AS name, F.price, F.ingredients, F.description, F.img_thumbnail, SUM(O.quantity) AS total_orders, AVG(R.rate) AS average_rating, COUNT(R.id) AS total_reviews FROM Food F JOIN Orders O ON F.id = O.food_id LEFT JOIN Reviews R ON F.id = R.food_id GROUP BY F.id, F.name ORDER BY total_orders DESC";
             var [result] = await pool.query(query);
             if (result.length > 0) {
+                console.log(result);
                 return result;
             } else {
                 return false;

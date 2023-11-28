@@ -25,14 +25,14 @@ class Order {
 
   Order.fromJson(Map<String, dynamic> json) {
     orderId = json['order_id'];
-    price = json['price'];
+    price = double.parse(json['price'].toString()) ?? 0.0;
     foodId = json['food_id'];
     name = json['name'];
     ingredients = json['ingredients'];
     imgThumbnail = json['img_thumbnail'];
     orderDatetime = json['order_datetime'];
     quantity = json['quantity'];
-    totalPrice = json['total_price'];
+    totalPrice = double.parse(json['total_price'].toString()) ?? 0.0;
     userID = json['user_id'];
   }
 

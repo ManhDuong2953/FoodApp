@@ -1,5 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:foodapp/api/review.api.dart';
+import 'package:foodapp/models/entities/review.entity..dart';
+import 'package:foodapp/models/enums/loadStatus.dart';
 import 'package:foodapp/screen/OrderHistoryPage/OrderHistoryPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -16,7 +19,9 @@ class ReviewInputScreen extends StatefulWidget {
 class _ReviewInputScreenState extends State<ReviewInputScreen> {
   int _rating = 0;
   int? _idFood;
+  LoadStatus loadStatus = LoadStatus.success;
   final TextEditingController _reviewController = TextEditingController();
+  Review? reviewEntity;
 
   @override
   void initState() {
@@ -28,24 +33,30 @@ class _ReviewInputScreenState extends State<ReviewInputScreen> {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? idUser = prefs.getString('idUser') ?? '';
-      final Map<String, dynamic> dataReq = {
-        "food_id": _idFood,
-        "user_id": int.parse(idUser),
-        "comment": _reviewController.text, // Fix this line
-        "rate": _rating
-      };
-      print(dataReq);
+      String urlApi = ApiReview.postReviewpEndpoint;
+      reviewEntity = Review(
+        idFood: _idFood,
+        idUser: int.parse(idUser),
+        comment: _reviewController.text,
+        rate: _rating,
+      );
+
       final response = await http.post(
-        Uri.parse(
-            'https://food-app-server-murex.vercel.app/reviews/post_reviews'),
+        Uri.parse(urlApi),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*',
         },
-        body: jsonEncode(dataReq), // No need for parentheses around dataReq
+        body: jsonEncode(
+            reviewEntity?.toJson()), // No need for parentheses around dataReq
       );
-
+      setState(() {
+        loadStatus = LoadStatus.loading;
+      });
       if (response.statusCode == 200) {
+        setState(() {
+          loadStatus = LoadStatus.success;
+        });
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -54,6 +65,9 @@ class _ReviewInputScreenState extends State<ReviewInputScreen> {
         throw Exception('Failed to load data');
       }
     } catch (error) {
+      setState(() {
+        loadStatus = LoadStatus.failure;
+      });
       print("Error: $error");
     }
   }
@@ -118,7 +132,11 @@ class _ReviewInputScreenState extends State<ReviewInputScreen> {
                   onPressed: () {
                     fetchData();
                   },
-                  child: const Text('Submit your review '),
+                  child: loadStatus == LoadStatus.loading
+                      ? const Center(child: CircularProgressIndicator())
+                      : loadStatus == LoadStatus.failure
+                          ? const Center(child: Text("ERROR SERVER!!"))
+                          : const Text('Submit your review '),
                 ),
               ],
             ),

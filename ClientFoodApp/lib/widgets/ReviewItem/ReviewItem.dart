@@ -58,9 +58,7 @@ class ReviewItem extends StatelessWidget {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Row(children: [
-                            StarRate(rate: double.parse(rate as String))
-                          ]),
+                          Row(children: [StarRate(rate: rate.toDouble())]),
                         ],
                       ),
                       Row(
