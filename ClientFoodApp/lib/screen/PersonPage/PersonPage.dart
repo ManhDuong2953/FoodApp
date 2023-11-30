@@ -61,13 +61,13 @@ class _PersonScreenState extends State<PersonScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          loadStatus == LoadStatus.loading
-              ? const Center(child: CircularProgressIndicator())
-              : loadStatus == LoadStatus.failure
-                  ? const Center(child: Text("No food available"))
-                  : Expanded(
+      body: loadStatus == LoadStatus.loading
+          ? const Center(child: CircularProgressIndicator())
+          : loadStatus == LoadStatus.failure
+              ? const Center(child: Text("No data available"))
+              : Column(
+                  children: [
+                    Expanded(
                       flex: 3,
                       child: Container(
                         width: double.infinity,
@@ -140,105 +140,111 @@ class _PersonScreenState extends State<PersonScreen> {
                         ),
                       ),
                     ),
-          Expanded(
-            flex: 5,
-            child: Column(
-              children: [
-                const Divider(
-                  color: Color.fromRGBO(239, 239, 239, 1),
-                  thickness: 20,
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const OrderHistoryScreen(),
-                      ),
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 25, vertical: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(20),
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage("assets/images/order.png"),
+                    Expanded(
+                      flex: 5,
+                      child: Column(
+                        children: [
+                          const Divider(
+                            color: Color.fromRGBO(239, 239, 239, 1),
+                            thickness: 20,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const OrderHistoryScreen(),
                                 ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 25, vertical: 10),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        padding: const EdgeInsets.all(20),
+                                        decoration: const BoxDecoration(
+                                          image: DecorationImage(
+                                            image: AssetImage(
+                                                "assets/images/order.png"),
+                                          ),
+                                        ),
+                                        child: Image.asset(
+                                            "assets/images/OrderIcon.png"),
+                                      ),
+                                      const Text(
+                                        "Orders History",
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Image.asset("assets/images/chevronRight.png")
+                                ],
                               ),
-                              child: Image.asset("assets/images/OrderIcon.png"),
                             ),
-                            const Text(
-                              "Orders History",
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Image.asset("assets/images/chevronRight.png")
-                      ],
-                    ),
-                  ),
-                ),
-                const Divider(
-                  color: Color.fromRGBO(239, 239, 239, 1),
-                  thickness: 20,
-                ),
-                InkWell(
-                  onTap: () async {
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    prefs.clear();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LoginScreen(),
-                      ),
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 25, vertical: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 15),
-                              child: Text(
-                                "Log out",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
+                          ),
+                          const Divider(
+                            color: Color.fromRGBO(239, 239, 239, 1),
+                            thickness: 20,
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.clear();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const LoginScreen(),
                                 ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 25, vertical: 10),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Row(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 15),
+                                        child: Text(
+                                          "Log out",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Image.asset("assets/images/chevronRight.png")
+                                ],
                               ),
                             ),
-                          ],
-                        ),
-                        Image.asset("assets/images/chevronRight.png")
-                      ],
+                          ),
+                          const Divider(
+                            color: Color.fromRGBO(239, 239, 239, 1),
+                            thickness: 20,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
+                    BottomBar(tab: selectedTab, changeTab: changeTab)
+                  ],
                 ),
-                const Divider(
-                  color: Color.fromRGBO(239, 239, 239, 1),
-                  thickness: 20,
-                ),
-              ],
-            ),
-          ),
-          BottomBar(tab: selectedTab, changeTab: changeTab)
-        ],
-      ),
     );
   }
 }
