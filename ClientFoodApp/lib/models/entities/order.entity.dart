@@ -25,29 +25,29 @@ class Order {
 
   Order.fromJson(Map<String, dynamic> json) {
     orderId = json['order_id'];
-    price = double.parse(json['price'].toString()) ?? 0.0;
+    price = double.parse(json['price'].toString());
     foodId = json['food_id'];
     name = json['name'];
     ingredients = json['ingredients'];
     imgThumbnail = json['img_thumbnail'];
     orderDatetime = json['order_datetime'];
-    quantity = json['quantity'];
-    totalPrice = double.parse(json['total_price'].toString()) ?? 0.0;
+    quantity = json['quantity'] ?? 1;
+    totalPrice = double.parse(json['total_price'].toString());
     userID = json['user_id'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['order_id'] = this.orderId;
-    data['price'] = this.price;
-    data['food_id'] = this.foodId;
-    data['name'] = this.name;
-    data['ingredients'] = this.ingredients;
-    data['img_thumbnail'] = this.imgThumbnail;
-    data['order_datetime'] = this.orderDatetime;
-    data['quantity'] = this.quantity;
-    data['total_price'] = this.totalPrice;
-    data['user_id'] = this.userID;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['order_id'] = orderId;
+    data['price'] = price;
+    data['food_id'] = foodId;
+    data['name'] = name;
+    data['ingredients'] = ingredients;
+    data['img_thumbnail'] = imgThumbnail;
+    data['order_datetime'] = orderDatetime;
+    data['quantity'] = quantity;
+    data['total_price'] = totalPrice;
+    data['user_id'] = userID;
     return data;
   }
 }

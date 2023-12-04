@@ -21,12 +21,30 @@ export async function postOrder(req, res) {
         quantity: req.body.quantity,
         total_price: req.body.total_price
     };
-    console.log(order);
+
     try {
         const data = await Orders.uploadOrder(order);
         console.log(data);
-        if (data){
+        if (data) {
             res.status(200).json({ "status": true, "message": "Đơn hàng đã đặt thành công! Vui lòng sẵn điện thoại để nhận cuộc gọi từ người vận chuyển" });
+        } else {
+            res.status(404).json({ "status": false, "message": "Lỗi bất định !" });
+        }
+    } catch (error) {
+        res.status(404).json({ "status": false, "message": "Lỗi server" });
+    }
+
+}
+
+
+
+export async function getNoticeController(req, res) {
+    const id_user = req.params.id_user;
+    try {
+        const data = await Orders.getNotice(id_user);
+
+        if (data) {
+            res.status(200).json({ "status": true, data: data });
         } else {
             res.status(404).json({ "status": false, "message": "Lỗi bất định !" });
         }

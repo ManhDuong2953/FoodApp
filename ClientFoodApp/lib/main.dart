@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:foodapp/screen/HomePage/HomePage.dart';
-import 'package:foodapp/screen/LoginPage/LoginPage.dart';
+import 'package:foodapp/screen/home_page/home_page.dart';
+import 'package:foodapp/screen/login_page/login_page.dart';
 
 
 Future<void> main() async {

@@ -30,21 +30,21 @@ class Food {
     imgThumbnail = json['img_thumbnail'] ?? "assets/images/errImg.jpg";
     averageRating =
         double.parse(json['price'] != "null" ? json['price'] : '0.0');
-    totalReviews = int.parse(json['total_reviews'].toString()) ?? 0;
-    totalOrders = int.parse(json['total_orders'].toString()) ?? 0;
+    totalReviews = int.parse(json['total_reviews'].toString());
+    totalOrders = int.parse(json['total_orders'].toString());
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['price'] = this.price;
-    data['ingredients'] = this.ingredients;
-    data['description'] = this.description;
-    data['img_thumbnail'] = this.imgThumbnail;
-    data['average_rating'] = this.averageRating;
-    data['total_reviews'] = this.totalReviews;
-    data['total_orders'] = this.totalOrders;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['price'] = price;
+    data['ingredients'] = ingredients;
+    data['description'] = description;
+    data['img_thumbnail'] = imgThumbnail;
+    data['average_rating'] = averageRating;
+    data['total_reviews'] = totalReviews;
+    data['total_orders'] = totalOrders;
     return data;
   }
 }

@@ -27,14 +27,14 @@ class Review {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['food_id'] = this.idFood;
-    data['user_id'] = this.idUser;
-    data['name'] = this.name;
-    data['avatar_thumbnail'] = this.avatarThumbnail;
-    data['reviews_datetime'] = this.reviewsDatetime;
-    data['rate'] = this.rate;
-    data['comment'] = this.comment;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['food_id'] = idFood;
+    data['user_id'] = idUser;
+    data['name'] = name;
+    data['avatar_thumbnail'] = avatarThumbnail;
+    data['reviews_datetime'] = reviewsDatetime;
+    data['rate'] = rate;
+    data['comment'] = comment;
     return data;
   }
 }
