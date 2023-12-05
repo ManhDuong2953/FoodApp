@@ -105,7 +105,7 @@ class _SearchFoodScreenState extends State<SearchFoodScreen> {
               flex: 5,
               child: TextField(
                 controller: _keywordSearch,
-                autofocus: true,
+                // autofocus: true,
                 onSubmitted: (String keywordSearch) {
                   Navigator.push(
                     context,
