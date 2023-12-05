@@ -54,7 +54,7 @@ class Users {
 
     static async findUserByID(id) {
         try {
-            const query = "SELECT * FROM Users WHERE id = ?";
+            const query = "SELECT * FROM users WHERE id = ?";
             const [result] = await pool.execute(query, [id]);
             if (result.length > 0) {
                 // Nếu có kết quả, trả về thông tin người dùng
