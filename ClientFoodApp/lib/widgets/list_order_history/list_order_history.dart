@@ -115,9 +115,10 @@ class ListOrderHistory extends StatelessWidget {
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(vertical: 2),
-                                child: Text("x3"),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 2),
+                                child: Text("x$quantity"),
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 5),

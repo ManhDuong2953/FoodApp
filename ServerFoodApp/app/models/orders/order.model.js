@@ -19,10 +19,10 @@ class Orders {
             const sql = "INSERT INTO orders (food_id, user_id, quantity, total_price) VALUES (?,?,?,?);";
             await pool.query(sql, [params.food_id, params.user_id, params.quantity, params.total_price]);
 
-            const updateSql = "UPDATE Food SET total_orders = total_orders + ? WHERE id = ?;";
+            const updateSql = "UPDATE food SET total_orders = total_orders + ? WHERE id = ?;";
             await pool.query(updateSql, [params.quantity, params.food_id]);
 
-            const noticeSql = "INSERT INTO Notices (food_id, user_id, notices_message) VALUES (?, ?, 'success');";
+            const noticeSql = "INSERT INTO notices (food_id, user_id, notices_message) VALUES (?, ?, 'success');";
             await pool.query(noticeSql, [params.food_id, params.user_id ]);
             return true;
 
