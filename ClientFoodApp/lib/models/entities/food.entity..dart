@@ -28,8 +28,10 @@ class Food {
     ingredients = json['ingredients'] ?? "";
     description = json['description'] ?? "";
     imgThumbnail = json['img_thumbnail'] ?? "assets/images/errImg.jpg";
-    averageRating =
-        double.parse(json['price'] != "null" ? json['price'] : '0.0');
+    averageRating = json['average_rating'] != null
+        ? double.parse(json['average_rating'])
+        : 0.0;
+
     totalReviews = int.parse(json['total_reviews'].toString());
     totalOrders = int.parse(json['total_orders'].toString());
   }
