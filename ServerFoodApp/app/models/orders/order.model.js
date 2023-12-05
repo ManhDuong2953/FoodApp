@@ -16,7 +16,7 @@ class Orders {
 
     static uploadOrder = async (params) => {
         try {
-            const sql = "INSERT INTO Orders (food_id, user_id, quantity, total_price) VALUES (?,?,?,?);";
+            const sql = "INSERT INTO orders (food_id, user_id, quantity, total_price) VALUES (?,?,?,?);";
             await pool.query(sql, [params.food_id, params.user_id, params.quantity, params.total_price]);
 
             const updateSql = "UPDATE Food SET total_orders = total_orders + ? WHERE id = ?;";
@@ -33,7 +33,7 @@ class Orders {
 
     static getNotice = async (id) => {
         try {
-            const noticeSql = "SELECT N.id AS notice_id, N.notices_datetime, N.notices_message, F.img_thumbnail AS food_image, F.name AS food_name, O.quantity, O.id AS order_id FROM Notices N JOIN Food F ON N.food_id = F.id JOIN Orders O ON N.user_id = O.user_id AND N.food_id = O.food_id WHERE N.user_id = ? order by notices_datetime desc";
+            const noticeSql = "SELECT N.id AS notice_id, N.notices_datetime, N.notices_message, F.img_thumbnail AS food_image, F.name AS food_name, O.quantity, O.id AS order_id FROM notices N JOIN food F ON N.food_id = F.id JOIN orders O ON N.user_id = O.user_id AND N.food_id = O.food_id WHERE N.user_id = ? order by notices_datetime desc";
             const [result] = await pool.query(noticeSql, [id]);
             console.log(id);
             return result;

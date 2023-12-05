@@ -1,6 +1,6 @@
 CREATE DATABASE FoodApp;
 
-CREATE TABLE Users (
+CREATE TABLE users (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255),
     phone_number VARCHAR(20),
@@ -9,7 +9,7 @@ CREATE TABLE Users (
     avatar_thumbnail VARCHAR(1000) 
 );
 
-CREATE TABLE Food (
+CREATE TABLE food (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255),
     price DECIMAL(10, 2) default 0,
@@ -19,33 +19,44 @@ CREATE TABLE Food (
     total_orders int default 0
 );
 
-CREATE TABLE Orders (
+CREATE TABLE orders (
     id INT PRIMARY KEY AUTO_INCREMENT,
     food_id INT,
     user_id INT,
     order_datetime DATETIME DEFAULT CURRENT_TIMESTAMP, 
     quantity INT default 1,
     total_price DECIMAL(10, 2) default 0.0,
-    FOREIGN KEY (food_id) REFERENCES Food(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (food_id) REFERENCES food(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE Reviews (
+CREATE TABLE reviews (
     id INT PRIMARY KEY AUTO_INCREMENT,
     food_id INT,
     user_id INT,
     comment TEXT ,
     rate INT default 5,
     reviews_datetime DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (food_id) REFERENCES Food(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (food_id) REFERENCES food(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-INSERT INTO Users (name, phone_number, address, password, avatar_thumbnail) VALUES
+CREATE TABLE notices (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+    food_id INT,
+    user_id INT,
+    notices_message varchar(1000) default "",
+    notices_datetime DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (food_id) REFERENCES food(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+INSERT INTO users (name, phone_number, address, password, avatar_thumbnail) VALUES
     ('Dương Văn Mạnh', '123456789', 'Đức Thắng, Bắc Từ Liêm, Hà Nội', '123', 'https://photo-cms-tinnhanhchungkhoan.epicdn.me/w1200/Uploaded/2023/xpivpivo/2018_11_19/matt-smith-yuanta_ZHUO.jpg');
 
 
-INSERT INTO Food (name, price, ingredients, description, img_thumbnail)
+INSERT INTO food (name, price, ingredients, description, img_thumbnail)
 VALUES
 ('Hamburger', 12.99, 'Beef patty, cheese, lettuce, tomato, onion', 'A classic American burger made with a juicy beef patty, melted cheese, and all your favorite toppings.', 'https://e1.pxfuel.com/desktop-wallpaper/609/28/desktop-wallpaper-veggie-burger-burger.jpg'),
 ('Pizza', 14.99, 'Tomato sauce, mozzarella cheese, pepperoni', 'A delicious pizza topped with your favorite toppings.', 'https://truongcaodangnauan.edu.vn/test_disk/photos/shares/mon-ngon-moi-ngay/n%E1%BA%A5u%20%C4%83n/b%C3%A1nh%20pizza/cach-lam-banh-pizza-tai-nha-3.jpg'),

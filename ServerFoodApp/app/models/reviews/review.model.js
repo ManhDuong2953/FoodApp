@@ -16,7 +16,7 @@ class Reviews {
 
     static uploadReviews = async (params) => {
         try {
-            const sql = "INSERT INTO Reviews (food_id, user_id, comment, rate) VALUES (?,?,?,?);";
+            const sql = "INSERT INTO reviews (food_id, user_id, comment, rate) VALUES (?,?,?,?);";
             await pool.query(sql, [params.food_id, params.user_id, params.comment, params.rate]);
             return true;
             

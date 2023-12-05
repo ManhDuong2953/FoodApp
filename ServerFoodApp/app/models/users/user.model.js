@@ -21,7 +21,7 @@ class Users {
 
     static async checkLogin({ phone_number, password }) {
         try {
-            const query = "SELECT * FROM Users WHERE phone_number = ? AND password = ?";
+            const query = "SELECT * FROM users WHERE phone_number = ? AND password = ?";
             const [result] = await pool.execute(query, [phone_number, password]);
             if (result.length > 0) {
                 return result[0];
