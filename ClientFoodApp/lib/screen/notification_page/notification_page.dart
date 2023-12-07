@@ -74,37 +74,28 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            height: 68,
-            color: const Color.fromRGBO(219, 22, 110, 1),
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SvgPicture.asset("assets/vectors/searchIcon.svg"),
-                  const Text(
-                    "NOTIFICATION",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  Image.asset(
-                    "assets/images/settings.png",
-                  ),
-                ],
-              ),
+      appBar: AppBar(
+        backgroundColor: const Color.fromRGBO(219, 22, 110, 1),
+        toolbarHeight: 60,
+        centerTitle: false,
+        title: const Center(
+          child: Text(
+            "NOTIFICATION",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
             ),
           ),
+        ),
+      ),
+      body: Column(
+        children: [
           Expanded(
             child: loadStatus == LoadStatus.loading
                 ? const Center(
-                    child: CircularProgressIndicator(
-                    color: Colors.white,
-                  ))
+                    child: CircularProgressIndicator(),
+                  )
                 : loadStatus == LoadStatus.failure
                     ? const Center(child: Text("No food available"))
                     : Container(
@@ -126,9 +117,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         ),
                       ),
           ),
-          BottomBar(tab: selectedTab, changeTab: changeTab)
         ],
       ),
+      bottomNavigationBar: BottomBar(tab: selectedTab, changeTab: changeTab),
     );
   }
 }

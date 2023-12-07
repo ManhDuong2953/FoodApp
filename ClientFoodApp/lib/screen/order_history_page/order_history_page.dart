@@ -73,49 +73,31 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            height: 68,
-            color: const Color.fromRGBO(219, 22, 110, 1),
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SearchFoodScreen(),
-                          ),
-                        );
-                      },
-                      child: SvgPicture.asset("assets/vectors/searchIcon.svg")),
-                  const Text(
-                    "ORDER HISTORY",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  Image.asset(
-                    "assets/images/settings.png",
-                  ),
-                ],
-              ),
+      appBar: AppBar(
+        backgroundColor: const Color.fromRGBO(219, 22, 110, 1),
+        toolbarHeight: 60,
+        centerTitle: false,
+        title: const Center(
+          child: Text(
+            "ORDER HISTORY",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
             ),
           ),
+        ),
+      ),
+      body: Column(
+        children: [
           Expanded(
             flex: 1,
             child: Container(
               color: const Color.fromRGBO(250, 240, 240, 1),
               child: loadStatus == LoadStatus.loading
                   ? const Center(
-                      child: CircularProgressIndicator(
-                      color: Colors.white,
-                    ))
+                      child: CircularProgressIndicator(),
+                    )
                   : loadStatus == LoadStatus.failure
                       ? const Center(child: Text("No food available"))
                       : ListView.builder(
@@ -138,9 +120,9 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                         ),
             ),
           ),
-          BottomBar(tab: selectedTab, changeTab: changeTab)
         ],
       ),
+      bottomNavigationBar: BottomBar(tab: selectedTab, changeTab: changeTab),
     );
   }
 }

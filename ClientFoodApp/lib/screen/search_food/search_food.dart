@@ -87,9 +87,9 @@ class _SearchFoodScreenState extends State<SearchFoodScreen> {
                   ? _buildRecommendationsList()
                   : const Expanded(
                       child: Center(child: Text("No food available"))),
-          BottomBar(tab: selectedTab, changeTab: changeTab),
         ],
       ),
+      bottomNavigationBar: BottomBar(tab: selectedTab, changeTab: changeTab),
     );
   }
 

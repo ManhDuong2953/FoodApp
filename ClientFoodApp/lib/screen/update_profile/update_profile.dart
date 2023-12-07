@@ -108,9 +108,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       ),
       body: loadStatus == LoadStatus.loading
           ? const Center(
-              child: CircularProgressIndicator(
-              color: Colors.white,
-            ))
+              child: CircularProgressIndicator(),
+            )
           : loadStatus == LoadStatus.failure
               ? const Center(child: Text("No data available"))
               : Padding(
@@ -146,6 +145,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                               borderSide: BorderSide(
                                   color: Color.fromRGBO(219, 22, 110, 1)),
                             ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Color.fromRGBO(219, 22, 110, 1)),
+                            ),
                           ),
                         ),
                         const SizedBox(height: 16.0),
@@ -155,6 +158,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                           decoration: const InputDecoration(
                             labelText: 'Phone Number',
                             enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Color.fromRGBO(219, 22, 110, 1)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   color: Color.fromRGBO(219, 22, 110, 1)),
                             ),
@@ -169,6 +176,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                               borderSide: BorderSide(
                                   color: Color.fromRGBO(219, 22, 110, 1)),
                             ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Color.fromRGBO(219, 22, 110, 1)),
+                            ),
                           ),
                         ),
                         const SizedBox(height: 16.0),
@@ -177,6 +188,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                           decoration: const InputDecoration(
                             labelText: 'Password',
                             enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Color.fromRGBO(219, 22, 110, 1)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   color: Color.fromRGBO(219, 22, 110, 1)),
                             ),
@@ -194,7 +209,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             padding: const EdgeInsets.all(15.0),
                             child: loadUpdate == LoadStatus.loading
                                 ? const Center(
-                                    child: CircularProgressIndicator())
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),
+                                  )
                                 : loadUpdate == LoadStatus.failure
                                     ? const Center(
                                         child:

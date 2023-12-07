@@ -69,33 +69,27 @@ class _FavoritePageScreenState extends State<FavoritePageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color.fromRGBO(219, 22, 110, 1),
+        toolbarHeight: 60,
+        centerTitle: true,
+        title: const Text(
+          "THE MOST FAVORITES",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
       body: Column(
         children: [
-          Container(
-            height: 75,
-            color: const Color.fromRGBO(219, 22, 110, 1),
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 17),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "THE MOST FAVORITES",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white),
-                  )
-                ],
-              ),
-            ),
-          ),
           Expanded(
             flex: 1,
             child: loadStatus == LoadStatus.loading
                 ? const Center(
-                    child: CircularProgressIndicator(
-                    color: Colors.white,
-                  ))
+                    child: CircularProgressIndicator(),
+                  )
                 : loadStatus == LoadStatus.failure
                     ? const Center(child: Text("No food available"))
                     : Container(
@@ -123,9 +117,9 @@ class _FavoritePageScreenState extends State<FavoritePageScreen> {
                         ),
                       ),
           ),
-          BottomBar(tab: selectedTab, changeTab: changeTab)
         ],
       ),
+      bottomNavigationBar: BottomBar(tab: selectedTab, changeTab: changeTab),
     );
   }
 }

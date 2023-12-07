@@ -96,9 +96,8 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
           Expanded(
             child: foodLoadStatus == LoadStatus.loading
                 ? const Center(
-                    child: CircularProgressIndicator(
-                    color: Colors.white,
-                  ))
+                    child: CircularProgressIndicator(),
+                  )
                 : foodLoadStatus == LoadStatus.failure
                     ? const Center(child: Text("No food available"))
                     : ListView(

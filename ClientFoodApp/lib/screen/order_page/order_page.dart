@@ -111,30 +111,23 @@ class _OrderScreenState extends State<OrderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            color: const Color.fromRGBO(219, 22, 110, 1),
-            height: 75,
-            padding: const EdgeInsets.symmetric(horizontal: 17),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Image.asset("assets/images/arrow-left.png"),
-                ),
-                const Text(
-                  "ORDER CONFIRMATION AND PAYMENT",
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                )
-              ],
+      appBar: AppBar(
+        backgroundColor: const Color.fromRGBO(219, 22, 110, 1),
+        toolbarHeight: 60,
+        centerTitle: false,
+        title: const Center(
+          child: Text(
+            "ORDER AND PAYMENT",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
             ),
           ),
+        ),
+      ),
+      body: Column(
+        children: [
           Expanded(
             child: ListView(
               children: [
@@ -145,9 +138,8 @@ class _OrderScreenState extends State<OrderScreen> {
                     children: [
                       loadFoodStatus == LoadStatus.loading
                           ? const Center(
-                              child: CircularProgressIndicator(
-                              color: Colors.white,
-                            ))
+                              child: CircularProgressIndicator(),
+                            )
                           : loadFoodStatus == LoadStatus.failure
                               ? const Center(child: Text("No food available"))
                               : Row(

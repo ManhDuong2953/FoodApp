@@ -64,9 +64,8 @@ class _PersonScreenState extends State<PersonScreen> {
     return Scaffold(
       body: loadStatus == LoadStatus.loading
           ? const Center(
-              child: CircularProgressIndicator(
-              color: Colors.white,
-            ))
+              child: CircularProgressIndicator(),
+            )
           : loadStatus == LoadStatus.failure
               ? const Center(child: Text("No data available"))
               : Column(
@@ -268,31 +267,42 @@ class _PersonScreenState extends State<PersonScreen> {
                             },
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 40, vertical: 5),
+                                  horizontal: 25, vertical: 10),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Row(
+                                  Row(
                                     children: [
-                                      Padding(
-                                        padding:
-                                            EdgeInsets.symmetric(vertical: 15),
-                                        child: Text(
-                                          "Log out",
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            color: Colors.red,
-                                            fontWeight: FontWeight.w600,
+                                      Container(
+                                        width: 47,
+                                        height: 47,
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 5),
+                                        decoration: const BoxDecoration(
+                                          image: DecorationImage(
+                                            image: AssetImage(
+                                                "assets/images/bgLogout.png"),
                                           ),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: Image.asset(
+                                            "assets/images/logoutIcon.png",
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                      const Text(
+                                        "Logout",
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ],
                                   ),
-                                  Image.asset(
-                                    "assets/images/chevronRight.png",
-                                    color: Colors.red,
-                                  )
+                                  Image.asset("assets/images/chevronRight.png")
                                 ],
                               ),
                             ),
@@ -304,9 +314,9 @@ class _PersonScreenState extends State<PersonScreen> {
                         ],
                       ),
                     ),
-                    BottomBar(tab: selectedTab, changeTab: changeTab)
                   ],
                 ),
+      bottomNavigationBar: BottomBar(tab: selectedTab, changeTab: changeTab),
     );
   }
 }
