@@ -155,7 +155,10 @@ class _SearchResultFoodScreenState extends State<SearchResultFoodScreen> {
           ),
           Expanded(
             child: loadStatus == LoadStatus.loading
-                ? const Center(child: CircularProgressIndicator())
+                ? const Center(
+                    child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ))
                 : loadStatus == LoadStatus.failure
                     ? const Center(child: Text("No food available"))
                     : ListView.builder(

@@ -112,7 +112,10 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
             child: Container(
               color: const Color.fromRGBO(250, 240, 240, 1),
               child: loadStatus == LoadStatus.loading
-                  ? const Center(child: CircularProgressIndicator())
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                      color: Colors.white,
+                    ))
                   : loadStatus == LoadStatus.failure
                       ? const Center(child: Text("No food available"))
                       : ListView.builder(

@@ -95,7 +95,10 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
         children: [
           Expanded(
             child: foodLoadStatus == LoadStatus.loading
-                ? const Center(child: CircularProgressIndicator())
+                ? const Center(
+                    child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ))
                 : foodLoadStatus == LoadStatus.failure
                     ? const Center(child: Text("No food available"))
                     : ListView(
@@ -346,7 +349,10 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                             ],
                           ),
                           reviewLoadStatus == LoadStatus.loading
-                              ? const Center(child: CircularProgressIndicator())
+                              ? const Center(
+                                  child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ))
                               : reviewLoadStatus == LoadStatus.failure
                                   ? const Center(
                                       child: Text("No comment available"))

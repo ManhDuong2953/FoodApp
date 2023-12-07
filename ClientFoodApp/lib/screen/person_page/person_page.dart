@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:foodapp/api/user.api.dart';
 import 'package:foodapp/models/enums/loadStatus.dart';
+import 'package:foodapp/screen/update_profile/update_profile.dart';
 import 'package:foodapp/widgets/bottom_bar/bottom_bar.dart';
 import 'package:foodapp/screen/login_page/login_page.dart';
 import 'package:foodapp/screen/order_history_page/order_history_page.dart';
@@ -62,7 +63,10 @@ class _PersonScreenState extends State<PersonScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: loadStatus == LoadStatus.loading
-          ? const Center(child: CircularProgressIndicator())
+          ? const Center(
+              child: CircularProgressIndicator(
+              color: Colors.white,
+            ))
           : loadStatus == LoadStatus.failure
               ? const Center(child: Text("No data available"))
               : Column(
@@ -154,6 +158,57 @@ class _PersonScreenState extends State<PersonScreen> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
+                                      const UpdateProfileScreen(),
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 25, vertical: 10),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        width: 47,
+                                        height: 47,
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 5),
+                                        decoration: const BoxDecoration(
+                                          image: DecorationImage(
+                                            image: AssetImage(
+                                                "assets/images/bgUser.png"),
+                                          ),
+                                        ),
+                                        child: Image.asset(
+                                            "assets/images/users.png"),
+                                      ),
+                                      const Text(
+                                        "Edit Profile",
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Image.asset("assets/images/chevronRight.png")
+                                ],
+                              ),
+                            ),
+                          ),
+                          const Divider(
+                            color: Color.fromRGBO(239, 239, 239, 1),
+                            thickness: 20,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
                                       const OrderHistoryScreen(),
                                 ),
                               );
@@ -168,7 +223,10 @@ class _PersonScreenState extends State<PersonScreen> {
                                   Row(
                                     children: [
                                       Container(
-                                        padding: const EdgeInsets.all(20),
+                                        width: 47,
+                                        height: 47,
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 5),
                                         decoration: const BoxDecoration(
                                           image: DecorationImage(
                                             image: AssetImage(
@@ -210,7 +268,7 @@ class _PersonScreenState extends State<PersonScreen> {
                             },
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 25, vertical: 10),
+                                  horizontal: 40, vertical: 5),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -224,13 +282,17 @@ class _PersonScreenState extends State<PersonScreen> {
                                           "Log out",
                                           style: TextStyle(
                                             fontSize: 18,
+                                            color: Colors.red,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
                                     ],
                                   ),
-                                  Image.asset("assets/images/chevronRight.png")
+                                  Image.asset(
+                                    "assets/images/chevronRight.png",
+                                    color: Colors.red,
+                                  )
                                 ],
                               ),
                             ),

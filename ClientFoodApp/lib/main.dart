@@ -35,7 +35,7 @@ class _MyAppWrapperState extends State<MyAppWrapper> {
     super.initState();
 
     // Delay for 3 seconds and then navigate to OrderScreen
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 2), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const LoginScreen()),

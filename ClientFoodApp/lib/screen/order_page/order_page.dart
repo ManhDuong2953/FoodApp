@@ -90,7 +90,6 @@ class _OrderScreenState extends State<OrderScreen> {
         body: jsonEncode(orderEntity?.toJson()),
       );
 
-      await Future.delayed(Duration(seconds: 2));
       if (response.statusCode == 200) {
         setState(() {
           loadOrderStatus = LoadStatus.success;
@@ -145,7 +144,10 @@ class _OrderScreenState extends State<OrderScreen> {
                   child: Column(
                     children: [
                       loadFoodStatus == LoadStatus.loading
-                          ? const Center(child: CircularProgressIndicator())
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ))
                           : loadFoodStatus == LoadStatus.failure
                               ? const Center(child: Text("No food available"))
                               : Row(

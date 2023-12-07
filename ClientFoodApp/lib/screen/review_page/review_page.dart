@@ -133,7 +133,10 @@ class _ReviewInputScreenState extends State<ReviewInputScreen> {
                     fetchData();
                   },
                   child: loadStatus == LoadStatus.loading
-                      ? const Center(child: CircularProgressIndicator())
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                          color: Colors.white,
+                        ))
                       : loadStatus == LoadStatus.failure
                           ? const Center(child: Text("ERROR SERVER!!"))
                           : const Text('Submit your review '),

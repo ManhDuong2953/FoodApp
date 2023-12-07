@@ -68,6 +68,17 @@ class Users {
             return null;
         }
     }
+
+    static async updateUserByID(params) {
+        try {
+            const query = "UPDATE users SET name = ?, phone_number = ?, address = ?, password = ? WHERE id = ?";
+            await pool.execute(query, [params.name, params.phone_number, params.address, params.password, params.id]);
+            return true;
+        } catch (error) {
+            console.error(error.message);
+            return null;
+        }
+    }
 }
 
 module.exports = Users;

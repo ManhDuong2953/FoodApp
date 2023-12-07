@@ -1,10 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:foodapp/api/food.api.dart';
 import 'package:foodapp/models/enums/loadStatus.dart';
 import 'package:foodapp/widgets/bottom_bar/bottom_bar.dart';
-import 'package:foodapp/screen/search_food/search_food.dart';
 import 'package:foodapp/widgets/item_list_favorite/item_list_favorite.dart';
 import 'package:http/http.dart' as http;
 
@@ -94,7 +92,10 @@ class _FavoritePageScreenState extends State<FavoritePageScreen> {
           Expanded(
             flex: 1,
             child: loadStatus == LoadStatus.loading
-                ? const Center(child: CircularProgressIndicator())
+                ? const Center(
+                    child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ))
                 : loadStatus == LoadStatus.failure
                     ? const Center(child: Text("No food available"))
                     : Container(
