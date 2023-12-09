@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:foodapp/models/assets_direct.dart';
 import 'package:foodapp/screen/detail_product_page/detail_product_page.dart';
 import 'package:foodapp/widgets/star/star.dart';
 
@@ -60,7 +61,7 @@ class ItemListFavorites extends StatelessWidget {
                 color: const Color.fromARGB(255, 220, 139, 139),
                 child: Image.network(
                   imgThumbnail ??
-                      "https://e7.pngegg.com/pngimages/321/641/png-clipart-load-the-map-loading-load.png",
+                      assetsDirect.errFood,
                   width: double.infinity,
                   height: 250,
                   fit: BoxFit.cover,

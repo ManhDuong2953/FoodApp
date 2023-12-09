@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:foodapp/api/user.api.dart';
+import 'package:foodapp/models/assets_direct.dart';
 import 'package:foodapp/models/entities/user.entity.dart';
 import 'package:foodapp/models/enums/loadStatus.dart';
 import 'package:foodapp/screen/login_page/login_page.dart';
@@ -75,7 +76,7 @@ class _SignupScreenState extends State<SignupScreen> {
         padding: const EdgeInsets.only(top: 30),
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/bgLogin.png"),
+            image: AssetImage(assetsDirect.bgLogin),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
               Color.fromRGBO(0, 0, 0, 0.4), // Điều chỉnh độ tối tùy ý ở đây
@@ -91,7 +92,7 @@ class _SignupScreenState extends State<SignupScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset("assets/images/logoFoodPanda.png"),
+                Image.asset(assetsDirect.logoFoodPanda),
                 const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.all(10),

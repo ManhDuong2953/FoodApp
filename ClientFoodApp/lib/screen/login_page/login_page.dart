@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:foodapp/api/user.api.dart';
+import 'package:foodapp/models/assets_direct.dart';
 import 'package:foodapp/models/enums/loadStatus.dart';
 import 'package:foodapp/screen/search_page/search_page.dart';
 import 'package:foodapp/screen/signup_page/signup_page.dart';
@@ -77,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/bgLogin.png"),
+            image: AssetImage(assetsDirect.bgLogin),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
               Color.fromRGBO(0, 0, 0, 0.4),
@@ -92,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset("assets/images/logoFoodPanda.png"),
+                  Image.asset(assetsDirect.logoFoodPanda),
                   const SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.all(10),

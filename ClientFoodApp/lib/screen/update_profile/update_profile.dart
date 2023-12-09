@@ -5,6 +5,7 @@ import 'package:foodapp/api/user.api.dart';
 import 'package:foodapp/screen/person_page/person_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../models/assets_direct.dart';
 import '../../models/entities/user.entity.dart';
 import '../../models/enums/loadStatus.dart';
 
@@ -130,7 +131,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                               radius: 50,
                               backgroundImage: NetworkImage(
                                 "${userEntity?.avatarThumbnail}" ??
-                                    'https://e7.pngegg.com/pngimages/321/641/png-clipart-load-the-map-loading-load.png', // Thay đổi đường dẫn hình ảnh tùy ý
+                                    assetsDirect.errAvt, // Thay đổi đường dẫn hình ảnh tùy ý
                               ),
                             ),
                           ),

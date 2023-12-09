@@ -1,3 +1,5 @@
+import 'package:foodapp/models/assets_direct.dart';
+
 class Food {
   int? id;
   String? name;
@@ -27,7 +29,7 @@ class Food {
     price = double.parse(json['price'] ?? '0.0');
     ingredients = json['ingredients'] ?? "";
     description = json['description'] ?? "";
-    imgThumbnail = json['img_thumbnail'] ?? "assets/images/errImg.jpg";
+    imgThumbnail = json['img_thumbnail'] ?? assetsDirect.errImg;
     averageRating = json['average_rating'] != null
         ? double.parse(json['average_rating'])
         : 0.0;

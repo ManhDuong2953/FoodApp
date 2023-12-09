@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:foodapp/api/user.api.dart';
+import 'package:foodapp/models/assets_direct.dart';
 import 'package:foodapp/models/entities/user.entity.dart';
 import 'package:foodapp/models/enums/loadStatus.dart';
 import 'package:foodapp/screen/search_food/search_food.dart';
@@ -58,7 +59,7 @@ class _SearchPageState extends State<SearchPage> {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/bgsearch.png'),
+            image: AssetImage(assetsDirect.bgSearch),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
               Color.fromRGBO(0, 0, 0, 0.4),
@@ -88,7 +89,7 @@ class _SearchPageState extends State<SearchPage> {
                                       fit: BoxFit.cover,
                                     )
                                   : Image.asset(
-                                      "assets/images/errorAvt.png",
+                                      assetsDirect.errFood,
                                       height: 60,
                                       width: 60,
                                       fit: BoxFit.cover,
@@ -173,7 +174,7 @@ class _SearchPageState extends State<SearchPage> {
                                         ),
                                       ),
                                       SvgPicture.asset(
-                                          "assets/vectors/locationSVGIcon.svg"),
+                                          assetsDirect.locationSVGIcon),
                                     ],
                                   ),
                                 ),

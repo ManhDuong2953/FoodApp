@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:foodapp/api/user.api.dart';
+import 'package:foodapp/models/assets_direct.dart';
 import 'package:foodapp/models/enums/loadStatus.dart';
 import 'package:foodapp/screen/update_profile/update_profile.dart';
 import 'package:foodapp/widgets/bottom_bar/bottom_bar.dart';
@@ -78,7 +79,7 @@ class _PersonScreenState extends State<PersonScreen> {
                         decoration: const BoxDecoration(
                           image: DecorationImage(
                             image: AssetImage(
-                                'assets/images/bgPerson.png'), // Hình ảnh PNG
+                                assetsDirect.bgPerson), // Hình ảnh PNG
                             fit: BoxFit.fill,
                             colorFilter: ColorFilter.mode(
                               Color.fromRGBO(219, 22, 110, 1),
@@ -93,7 +94,7 @@ class _PersonScreenState extends State<PersonScreen> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Image.asset(
-                                  "assets/images/settings.png",
+                                  assetsDirect.settings,
                                 ),
                               ],
                             ),
@@ -103,7 +104,7 @@ class _PersonScreenState extends State<PersonScreen> {
                                 CircleAvatar(
                                   backgroundImage: NetworkImage(
                                       "${userEntity?.avatarThumbnail}" ??
-                                          'https://e7.pngegg.com/pngimages/321/641/png-clipart-load-the-map-loading-load.png'),
+                                          assetsDirect.errAvt),
                                   radius: 35,
                                 ),
                                 const SizedBox(
@@ -178,11 +179,11 @@ class _PersonScreenState extends State<PersonScreen> {
                                         decoration: const BoxDecoration(
                                           image: DecorationImage(
                                             image: AssetImage(
-                                                "assets/images/bgUser.png"),
+                                              assetsDirect.bgUser),
                                           ),
                                         ),
                                         child: Image.asset(
-                                            "assets/images/users.png"),
+                                            assetsDirect.users),
                                       ),
                                       const Text(
                                         "Edit Profile",
@@ -193,7 +194,7 @@ class _PersonScreenState extends State<PersonScreen> {
                                       ),
                                     ],
                                   ),
-                                  Image.asset("assets/images/chevronRight.png")
+                                  Image.asset(assetsDirect.chevronRight)
                                 ],
                               ),
                             ),
@@ -229,11 +230,11 @@ class _PersonScreenState extends State<PersonScreen> {
                                         decoration: const BoxDecoration(
                                           image: DecorationImage(
                                             image: AssetImage(
-                                                "assets/images/order.png"),
+                                                assetsDirect.order),
                                           ),
                                         ),
                                         child: Image.asset(
-                                            "assets/images/OrderIcon.png"),
+                                            assetsDirect.orderIcon),
                                       ),
                                       const Text(
                                         "Orders History",
@@ -244,7 +245,7 @@ class _PersonScreenState extends State<PersonScreen> {
                                       ),
                                     ],
                                   ),
-                                  Image.asset("assets/images/chevronRight.png")
+                                  Image.asset(assetsDirect.chevronRight)
                                 ],
                               ),
                             ),
@@ -282,13 +283,13 @@ class _PersonScreenState extends State<PersonScreen> {
                                         decoration: const BoxDecoration(
                                           image: DecorationImage(
                                             image: AssetImage(
-                                                "assets/images/bgLogout.png"),
+                                                assetsDirect.bgLogout),
                                           ),
                                         ),
                                         child: Padding(
                                           padding: const EdgeInsets.all(10.0),
                                           child: Image.asset(
-                                            "assets/images/logoutIcon.png",
+                                            assetsDirect.logoutIcon,
                                             color: Colors.white,
                                           ),
                                         ),
@@ -302,7 +303,7 @@ class _PersonScreenState extends State<PersonScreen> {
                                       ),
                                     ],
                                   ),
-                                  Image.asset("assets/images/chevronRight.png")
+                                  Image.asset(assetsDirect.chevronRight)
                                 ],
                               ),
                             ),

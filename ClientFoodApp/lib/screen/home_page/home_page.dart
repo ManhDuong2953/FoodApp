@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:foodapp/models/assets_direct.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -20,14 +21,14 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               child: Image.asset(
-                'assets/images/logoFoodPanda.png', // Make sure the asset path is correct
+                assetsDirect.logoFoodPanda, // Make sure the asset path is correct
               ),
             ),
           ),
           Expanded(
             flex: 1,
             child: SvgPicture.asset(
-                'assets/vectors/Vector.svg'), // Make sure the asset path is correct
+                assetsDirect.vector), // Make sure the asset path is correct
           ),
         ],
       ),

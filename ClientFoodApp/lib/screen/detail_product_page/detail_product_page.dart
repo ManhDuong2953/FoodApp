@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:foodapp/api/food.api.dart';
 import 'package:foodapp/api/review.api.dart';
+import 'package:foodapp/models/assets_direct.dart';
 import 'package:foodapp/models/entities/review.entity..dart';
 import 'package:foodapp/models/enums/loadStatus.dart';
 import 'package:foodapp/screen/order_page/order_page.dart';
@@ -112,7 +113,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                                   image: DecorationImage(
                                     image: NetworkImage(
                                         "${foodEntity?.imgThumbnail}" ??
-                                            "https://e7.pngegg.com/pngimages/321/641/png-clipart-load-the-map-loading-load.png"),
+                                            assetsDirect.errFood),
                                     // Update the image path
                                     fit: BoxFit
                                         .cover, // Use BoxFit.cover to fill the container
@@ -134,7 +135,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                                       color: const Color.fromRGBO(0, 0, 0, 0.3),
                                     ),
                                     child: Image.asset(
-                                        "assets/images/arrow-left.png"),
+                                        assetsDirect.arrowLeft),
                                   ),
                                 ),
                               ),

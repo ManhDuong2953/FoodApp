@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:foodapp/api/food.api.dart';
 import 'package:foodapp/api/order.api.dart';
+import 'package:foodapp/models/assets_direct.dart';
 import 'package:foodapp/models/entities/order.entity.dart';
 import 'package:foodapp/models/enums/loadStatus.dart';
 import 'package:foodapp/screen/order_history_page/order_history_page.dart';
@@ -142,7 +143,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                               Radius.circular(15)),
                                           child: Image.network(
                                             foodEntity?.imgThumbnail ??
-                                                "https://e7.pngegg.com/pngimages/321/641/png-clipart-load-the-map-loading-load.png",
+                                                assetsDirect.errFood,
                                             fit: BoxFit.cover,
                                             width: 80,
                                             height: 80,
@@ -322,7 +323,7 @@ class _OrderScreenState extends State<OrderScreen> {
                   ),
                 ),
                 Image.asset(
-                  "assets/images/orderbg.png",
+                  assetsDirect.orderBg,
                   fit: BoxFit.cover,
                   height: 300,
                   alignment: Alignment.bottomCenter,
