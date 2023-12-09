@@ -70,7 +70,7 @@ class _SearchFoodScreenState extends State<SearchFoodScreen> {
         children: [
           _buildSearchBar(),
           Container(
-            padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+            padding: const EdgeInsets.symmetric(vertical: 4),
             child: const Text(
               "RECOMMENDED FOR YOU",
               style: TextStyle(
@@ -95,17 +95,17 @@ class _SearchFoodScreenState extends State<SearchFoodScreen> {
 
   Widget _buildSearchBar() {
     return Container(
-      height: 100,
+      height: 85,
       color: const Color.fromRGBO(219, 22, 110, 1),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 30, 16, 13),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 17),
         child: Row(
           children: [
             Expanded(
               flex: 5,
               child: TextField(
                 controller: _keywordSearch,
-                // autofocus: true,
+                autofocus: true,
                 onSubmitted: (String keywordSearch) {
                   Navigator.push(
                     context,
@@ -159,7 +159,7 @@ class _SearchFoodScreenState extends State<SearchFoodScreen> {
       child: Container(
         color: const Color.fromRGBO(250, 240, 240, 1),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 17),
+          padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 8),
           child: ListView.builder(
               itemCount: foodList.length, // +1 for the recommended header
               itemBuilder: (context, index) {

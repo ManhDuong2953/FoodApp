@@ -10,6 +10,8 @@ import '../../models/enums/loadStatus.dart';
 
 import 'package:http/http.dart' as http;
 
+import '../../widgets/app_bar/app_bar.dart';
+
 class UpdateProfileScreen extends StatefulWidget {
   const UpdateProfileScreen({super.key});
 
@@ -102,10 +104,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Update Information'),
-        backgroundColor: const Color.fromRGBO(219, 22, 110, 1),
-      ),
+      appBar: const AppBarWidget(title: "UPDATE INFOMATION"),
       body: loadStatus == LoadStatus.loading
           ? const Center(
               child: CircularProgressIndicator(),

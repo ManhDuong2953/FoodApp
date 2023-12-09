@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:foodapp/screen/home_page/home_page.dart';
 import 'package:foodapp/screen/login_page/login_page.dart';
@@ -13,8 +14,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     return const MaterialApp(
-      title: 'FoodApp - Ứng dụng bán đồ ăn',
+      title: 'FoodApp - Ứng dụng bán đồ ăn nhanh',
       home: MyAppWrapper(),
     );
   }

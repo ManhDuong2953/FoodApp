@@ -3,7 +3,7 @@ import 'package:foodapp/screen/favorite_page/favorite_page.dart';
 import 'package:foodapp/screen/notification_page/notification_page.dart';
 import 'package:foodapp/screen/order_history_page/order_history_page.dart';
 import 'package:foodapp/screen/person_page/person_page.dart';
-import 'package:foodapp/screen/search_food/search_food.dart';
+import 'package:foodapp/screen/search_page/search_page.dart';
 
 class BottomBar extends StatefulWidget {
   final int tab;
@@ -50,7 +50,7 @@ class _BottomBarState extends State<BottomBar> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const SearchFoodScreen(),
+                    builder: (context) => const SearchPage(),
                   ),
                 );
               },

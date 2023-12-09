@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 
+import '../../widgets/bottom_bar/bottom_bar.dart';
+
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
 
@@ -18,6 +20,13 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   User? userEntity;
   LoadStatus loadStatus = LoadStatus.loading;
+  int selectedTab = 1;
+
+  void changeTab(int tab) {
+    setState(() {
+      selectedTab = tab;
+    });
+  }
 
   @override
   void initState() {
@@ -178,6 +187,7 @@ class _SearchPageState extends State<SearchPage> {
                 ),
         ),
       ),
+      bottomNavigationBar: BottomBar(tab: selectedTab, changeTab: changeTab),
     );
   }
 }

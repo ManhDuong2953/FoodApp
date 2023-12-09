@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:foodapp/api/food.api.dart';
 import 'package:foodapp/models/enums/loadStatus.dart';
+import 'package:foodapp/widgets/app_bar/app_bar.dart';
 import 'package:foodapp/widgets/bottom_bar/bottom_bar.dart';
 import 'package:foodapp/widgets/item_list_favorite/item_list_favorite.dart';
 import 'package:http/http.dart' as http;
@@ -69,19 +70,7 @@ class _FavoritePageScreenState extends State<FavoritePageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(219, 22, 110, 1),
-        toolbarHeight: 60,
-        centerTitle: true,
-        title: const Text(
-          "THE MOST FAVORITES",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 15,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ),
+      appBar: const AppBarWidget(title: "THE MOST FAVORITE DISH"),
       body: Column(
         children: [
           Expanded(

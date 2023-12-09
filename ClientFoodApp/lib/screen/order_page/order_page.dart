@@ -8,6 +8,7 @@ import 'package:foodapp/screen/order_history_page/order_history_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../../models/entities/food.entity..dart';
+import '../../widgets/app_bar/app_bar.dart';
 
 class OrderScreen extends StatefulWidget {
   final int? idProduct;
@@ -111,21 +112,7 @@ class _OrderScreenState extends State<OrderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(219, 22, 110, 1),
-        toolbarHeight: 60,
-        centerTitle: false,
-        title: const Center(
-          child: Text(
-            "ORDER AND PAYMENT",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-      ),
+      appBar: const AppBarWidget(title: "ORDER AND PAYMENT"),
       body: Column(
         children: [
           Expanded(

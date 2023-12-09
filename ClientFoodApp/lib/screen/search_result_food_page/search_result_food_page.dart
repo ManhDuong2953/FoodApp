@@ -69,11 +69,11 @@ class _SearchResultFoodScreenState extends State<SearchResultFoodScreen> {
       body: Column(
         children: [
           Container(
-            height: 100,
+            height: 85,
             decoration: const BoxDecoration(
               color: Color.fromRGBO(219, 22, 110, 1),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 17),
             child: Row(
               children: [
                 SizedBox(
@@ -143,7 +143,7 @@ class _SearchResultFoodScreenState extends State<SearchResultFoodScreen> {
                   ),
                 ),
                 Text(
-                  "'$keywordSearch'",
+                  "'$keywordSearch' (${foodList.length} results)",
                   style: const TextStyle(
                     color: Colors.yellowAccent,
                     fontSize: 14,

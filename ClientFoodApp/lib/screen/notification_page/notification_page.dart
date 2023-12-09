@@ -8,6 +8,7 @@ import 'package:foodapp/widgets/bottom_bar/bottom_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+import '../../widgets/app_bar/app_bar.dart';
 import '../../widgets/item_list_notification/item_list_notification.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -74,21 +75,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(219, 22, 110, 1),
-        toolbarHeight: 60,
-        centerTitle: false,
-        title: const Center(
-          child: Text(
-            "NOTIFICATION",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-      ),
+      appBar: const AppBarWidget(title: "NOTIFICATION"),
       body: Column(
         children: [
           Expanded(

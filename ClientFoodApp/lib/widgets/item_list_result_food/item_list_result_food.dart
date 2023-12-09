@@ -11,7 +11,7 @@ class ItemListResultFood extends StatelessWidget {
   final double avgRate;
   final int totalReview;
 
-  ItemListResultFood({
+  const ItemListResultFood({
     Key? key,
     required this.id,
     required this.name,

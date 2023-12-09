@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:foodapp/api/review.api.dart';
 import 'package:foodapp/models/entities/review.entity..dart';
 import 'package:foodapp/models/enums/loadStatus.dart';
+import 'package:foodapp/screen/detail_product_page/detail_product_page.dart';
 import 'package:foodapp/screen/order_history_page/order_history_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+
+import '../../widgets/app_bar/app_bar.dart';
 
 class ReviewInputScreen extends StatefulWidget {
   final int idFood;
@@ -60,7 +63,7 @@ class _ReviewInputScreenState extends State<ReviewInputScreen> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => const OrderHistoryScreen()));
+                builder: (context) => DetailProductScreen(idProduct: _idFood)));
       } else {
         throw Exception('Failed to load data');
       }
@@ -75,10 +78,7 @@ class _ReviewInputScreenState extends State<ReviewInputScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(219, 22, 110, 1),
-        title: const Text('Reviews'),
-      ),
+      appBar: const AppBarWidget(title: "REVIEWS"),
       body: ListView(
         children: [
           Padding(

@@ -125,10 +125,13 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.all(10),
-                                    margin: const EdgeInsets.all(15),
+                                    margin: const EdgeInsets.only(
+                                      top: 15,
+                                      left: 5,
+                                    ),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(70),
-                                      color: Color.fromRGBO(0, 0, 0, 0.3),
+                                      color: const Color.fromRGBO(0, 0, 0, 0.3),
                                     ),
                                     child: Image.asset(
                                         "assets/images/arrow-left.png"),
