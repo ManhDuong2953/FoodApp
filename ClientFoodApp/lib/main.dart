@@ -3,12 +3,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:foodapp/screen/home_page/home_page.dart';
 import 'package:foodapp/screen/login_page/login_page.dart';
 
-
 Future<void> main() async {
   await dotenv.load();
   runApp(const MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -16,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      title: 'FoodApp by Nhom2',
+      title: 'FoodApp - Ứng dụng bán đồ ăn',
       home: MyAppWrapper(),
     );
   }

@@ -123,12 +123,16 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                                   onTap: () {
                                     Navigator.pop(context);
                                   },
-                                  child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(30),
-                                      child: Container(
-                                          padding: const EdgeInsets.all(17),
-                                          child: Image.asset(
-                                              "assets/images/arrow-left.png"))),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(10),
+                                    margin: const EdgeInsets.all(15),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(70),
+                                      color: Color.fromRGBO(0, 0, 0, 0.3),
+                                    ),
+                                    child: Image.asset(
+                                        "assets/images/arrow-left.png"),
+                                  ),
                                 ),
                               ),
                               Padding(
