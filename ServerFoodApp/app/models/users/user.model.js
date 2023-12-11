@@ -79,6 +79,18 @@ class Users {
             return null;
         }
     }
+
+    static async updateUserAvatarByID(params) {
+        console.log(params);
+        try {
+            const query = "UPDATE users SET avatar_thumbnail = ? WHERE id = ?";
+            await pool.execute(query, [params.dataUploadURL, params.id]);
+            return true;
+        } catch (error) {
+            console.error(error.message);
+            return null;
+        }
+    }
 }
 
 module.exports = Users;

@@ -1,5 +1,5 @@
 import Users from "../../models/users/user.model";
-
+import UploadCloudinary from "../../../configs/cloud/cloudinary.config";
 // Chú ý: không sử dụng từ khóa "async" trực tiếp trước từ khóa "export"
 export const userLogin = async (req, res) => {
     try {
@@ -76,7 +76,8 @@ export const postUpdateUserInfo = async (req, res) => {
             password: req.body.password,
             id: req.body.id,
         });
-    
+
+        console.log(req.file);
         if (updateInfo) {
             res.status(200).json({ success: true, message: "Cập nhật thành công" });
         } else {
@@ -87,6 +88,33 @@ export const postUpdateUserInfo = async (req, res) => {
         res.status(500).json({ success: false, message: "Lỗi server." });
     }
 };
+
+
+
+
+export async function updateAvatar(req, res, next) {
+    const dataFile = req.file;
+    const id = req.params.id_user;
+    console.log(id);
+    try {
+        if (dataFile && id) {
+            const dataUploadCloud = await UploadCloudinary(dataFile);
+            const dataUploadURL = dataUploadCloud.url;
+            const media = new Users.updateUserAvatarByID({ dataUploadURL, id });
+            if (media) {
+
+                res.status(200).json({ success: true, message: "Thành công đăng avatar" });
+            }
+        }
+        else {
+            throw new Error;
+        }
+    } catch (error) {
+        res.status(200).json({ error: "Error saving media" });
+    }
+    next();
+}
+
 
 
 
