@@ -148,9 +148,6 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       );
 
       if (response.statusCode == 200) {
-        setState(() {
-          loadUpdate = LoadStatus.success;
-        });
         if (_image != null) {
           var request =
               http.MultipartRequest('POST', Uri.parse(apiUrlUserAvatar));
@@ -176,12 +173,15 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
             throw Exception('Failed to upload avatar');
           }
         }
+        setState(() {
+          loadUpdate = LoadStatus.success;
+        });
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const PersonScreen()),
         );
       } else {
-        throw Exception('Failed to load data');
+        throw Exception('Failed to upload data');
       }
     } catch (error) {
       setState(() {

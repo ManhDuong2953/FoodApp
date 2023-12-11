@@ -6,7 +6,6 @@ cloudinary.config({
     api_secret: 'doWpglhaxPBkH76oq2Klk7ylE6k'
 });
 
-
 export default async function UploadCloudinary(file) {
     try {
         const result = await new Promise((resolve, reject) => {
@@ -26,6 +25,6 @@ export default async function UploadCloudinary(file) {
         return result;
     } catch (error) {
         console.error("Lỗi khi tải lên:", error);
-        return null;
+        return error;
     }
 }

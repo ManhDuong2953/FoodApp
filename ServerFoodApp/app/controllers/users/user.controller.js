@@ -92,27 +92,23 @@ export const postUpdateUserInfo = async (req, res) => {
 
 
 
-export async function updateAvatar(req, res, next) {
+export async function updateAvatar(req, res) {
     const dataFile = req.file;
     const id = req.params.id_user;
-    console.log(id);
+
     try {
         if (dataFile && id) {
             const dataUploadCloud = await UploadCloudinary(dataFile);
             const dataUploadURL = dataUploadCloud.url;
-            const media = new Users.updateUserAvatarByID({ dataUploadURL, id });
+            const media = await Users.updateUserAvatarByID({ dataUploadURL, id });
             if (media) {
-
                 res.status(200).json({ success: true, message: "Thành công đăng avatar" });
             }
         }
-        else {
-            throw new Error;
-        }
+
     } catch (error) {
-        res.status(200).json({ error: "Error saving media" });
+        res.status(500).json({ error: error.message });
     }
-    next();
 }
 
 
