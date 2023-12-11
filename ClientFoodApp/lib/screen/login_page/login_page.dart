@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:foodapp/api/user.api.dart';
-import 'package:foodapp/models/assets_direct.dart';
+import 'package:foodapp/models/assets_dir/assets_direct.dart';
 import 'package:foodapp/models/enums/loadStatus.dart';
 import 'package:foodapp/screen/search_page/search_page.dart';
 import 'package:foodapp/screen/signup_page/signup_page.dart';
@@ -166,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
-                                    const Color.fromRGBO(219, 22, 110, 1),
+                                    assetsDirect.homeColor,
                               ),
                               child: loadStatus == LoadStatus.loading
                                   ? const CircularProgressIndicator(
@@ -199,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         style: TextButton.styleFrom(
                           foregroundColor:
-                              const Color.fromRGBO(219, 22, 110, 1),
+                              assetsDirect.homeColor,
                         ),
                         child: const Text('Sign up'),
                       ),

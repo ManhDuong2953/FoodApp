@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:foodapp/api/food.api.dart';
+import 'package:foodapp/models/assets_dir/assets_direct.dart';
 import 'package:foodapp/models/entities/food.entity..dart';
 import 'package:foodapp/models/enums/loadStatus.dart';
 import 'package:foodapp/widgets/bottom_bar/bottom_bar.dart';
@@ -96,7 +97,7 @@ class _SearchFoodScreenState extends State<SearchFoodScreen> {
   Widget _buildSearchBar() {
     return Container(
       height: 85,
-      color: const Color.fromRGBO(219, 22, 110, 1),
+      color: assetsDirect.homeColor,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 17),
         child: Row(

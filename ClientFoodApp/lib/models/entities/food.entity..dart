@@ -1,4 +1,4 @@
-import 'package:foodapp/models/assets_direct.dart';
+import 'package:foodapp/models/assets_dir/assets_direct.dart';
 
 class Food {
   int? id;

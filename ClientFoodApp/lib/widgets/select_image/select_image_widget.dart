@@ -1,24 +1,17 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
-
-import 'app_button.dart';
 
 class SelectUploadImage extends StatefulWidget {
-  final String? takePhotoTitle;
-  final String? choosePhotoTile;
-  final String? cancelTitle;
-  final Function(List<File>)? onSubmitImage;
-  final Function? onErrorImage;
+  final File? image;
+  final Function? getImageFromCamera;
+  final Function? getImageFromGallery;
 
   const SelectUploadImage({
     Key? key,
-    this.cancelTitle,
-    this.choosePhotoTile,
-    this.takePhotoTitle,
-    this.onSubmitImage,
-    this.onErrorImage,
+    this.getImageFromCamera,
+    this.getImageFromGallery,
+    this.image,
   }) : super(key: key);
 
   @override
@@ -26,64 +19,32 @@ class SelectUploadImage extends StatefulWidget {
 }
 
 class _SelectUploadImageState extends State<SelectUploadImage> {
-  final List<File> _images = [];
-  final picker = ImagePicker();
-
-  // final picker = ImagePicker();
-  late PermissionStatus permissionCamera;
-  late PermissionStatus permissionGallery;
-
-  @override
-  void initState() {
-    getAccessPermission();
-    super.initState();
-  }
-
-  void getAccessPermission() async {
-    permissionCamera = await Permission.camera.status;
-    permissionGallery = await Permission.photos.status;
-  }
-
-  Future getImageFromCamera() async {
-    try {
-      FocusScope.of(context).unfocus();
-      XFile? imageFile = await picker.pickImage(
-        source: ImageSource.camera,
-        preferredCameraDevice: CameraDevice.rear,
-      );
-      if (imageFile != null) {
-        await processImage(imageFile.path, 0);
-        widget.onSubmitImage?.call(_images);
-      }
-    } catch (error) {
-      debugPrint("$error");
-    }
-  }
-
-  Future<void> getImageFromGallery() async {
-    try {
-      FocusScope.of(context).unfocus();
-      List<XFile>? imageFile = [];
-      final listImageSelected = await picker.pickMultiImage();
-      imageFile.addAll(listImageSelected);
-
-      if (imageFile.isNotEmpty) {
-        if (imageFile.length <= 10) {
-          for (int i = 0; i < imageFile.length; i++) {
-            await processImage(imageFile[i].path, i);
-          }
-          widget.onSubmitImage?.call(_images);
-        } else {
-          ///Handle show error
-        }
-      }
-    } catch (error) {
-      debugPrint("$error");
-    }
-  }
-
-  Future<void> processImage(String path, int index) async {
-    _images.add(File(path));
+  Future showOptions() async {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (context) => CupertinoActionSheet(
+        actions: [
+          CupertinoActionSheetAction(
+            child: const Text('Photo Gallery'),
+            onPressed: () {
+              // close the options modal
+              Navigator.of(context).pop();
+              // get image from gallery
+              widget.getImageFromGallery!();
+            },
+          ),
+          CupertinoActionSheetAction(
+            child: const Text('Camera'),
+            onPressed: () {
+              // close the options modal
+              Navigator.of(context).pop();
+              // get image from camera
+              widget.getImageFromCamera!();
+            },
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -92,93 +53,19 @@ class _SelectUploadImageState extends State<SelectUploadImage> {
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
       child: SafeArea(
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           children: [
-            const Padding(
-              padding: EdgeInsets.only(
-                bottom: 16,
+            TextButton(
+              onPressed: showOptions,
+              child: const Text('Select Image'),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: 300,
+              child: Center(
+                child: widget.image == null
+                    ? const Text('No Image selected')
+                    : Image.file(widget.image!),
               ),
-              child: Text(
-                "Chọn ảnh",
-                style: TextStyle(
-                  color: Colors.black,
-                ),
-              ),
-            ),
-            AppButton(
-              backgroundColor: const Color.fromRGBO(218, 22, 109, 1),
-              title: widget.takePhotoTitle,
-              textStyle: AppTextStyle.primaryS18W700,
-              cornerRadius: 8,
-              onPressed: () async {
-                if (permissionCamera != PermissionStatus.denied) {
-                  if (permissionCamera == PermissionStatus.permanentlyDenied) {
-                    openAppSettings();
-                  } else {
-                    Navigator.of(context).pop();
-                    await getImageFromCamera();
-                  }
-                } else {
-                  final result = await Permission.camera.request();
-                  if (result != PermissionStatus.denied) {
-                    if (result == PermissionStatus.permanentlyDenied) {
-                      if (context.mounted) {
-                        Navigator.of(context).pop();
-                      }
-                      openAppSettings();
-                    } else {
-                      if (context.mounted) {
-                        Navigator.of(context).pop();
-                      }
-                      await getImageFromCamera();
-                    }
-                  }
-                  permissionCamera = await Permission.camera.status;
-                }
-              },
-            ),
-            const SizedBox(height: 8),
-            AppButton(
-              backgroundColor: AppColors.colorPrimary,
-              title: widget.choosePhotoTile,
-              textStyle: AppTextStyle.primaryS18W700,
-              cornerRadius: 8,
-              onPressed: () async {
-                if (permissionGallery != PermissionStatus.denied) {
-                  if (permissionGallery == PermissionStatus.permanentlyDenied) {
-                    openAppSettings();
-                  } else {
-                    Navigator.of(context).pop();
-                    await getImageFromGallery();
-                  }
-                } else {
-                  final result = await Permission.photos.request();
-                  if (result != PermissionStatus.denied) {
-                    if (result == PermissionStatus.permanentlyDenied) {
-                      if (context.mounted) {
-                        Navigator.of(context).pop();
-                      }
-                      openAppSettings();
-                    } else {
-                      if (context.mounted) {
-                        Navigator.of(context).pop();
-                      }
-                      await getImageFromGallery();
-                    }
-                  }
-                  permissionGallery = await Permission.photos.status;
-                }
-              },
-            ),
-            const SizedBox(height: 8),
-            AppButton(
-              backgroundColor: AppColors.colorPrimary,
-              title: widget.cancelTitle,
-              textStyle: AppTextStyle.primaryS18W700,
-              cornerRadius: 8,
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
             ),
           ],
         ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:foodapp/models/assets_direct.dart';
+import 'package:foodapp/models/assets_dir/assets_direct.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
             child: Container(
               height: 444,
               decoration: const BoxDecoration(
-                color: Color.fromRGBO(219, 22, 110, 1),
+                color: assetsDirect.homeColor,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(100),
                 ),

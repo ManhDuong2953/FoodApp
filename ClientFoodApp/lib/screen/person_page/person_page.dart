@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:foodapp/api/user.api.dart';
-import 'package:foodapp/models/assets_direct.dart';
+import 'package:foodapp/models/assets_dir/assets_direct.dart';
 import 'package:foodapp/models/enums/loadStatus.dart';
 import 'package:foodapp/screen/update_profile/update_profile.dart';
 import 'package:foodapp/widgets/bottom_bar/bottom_bar.dart';
@@ -76,13 +76,13 @@ class _PersonScreenState extends State<PersonScreen> {
                       child: Container(
                         width: double.infinity,
                         padding: const EdgeInsets.all(25),
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           image: DecorationImage(
                             image: AssetImage(
                                 assetsDirect.bgPerson), // Hình ảnh PNG
                             fit: BoxFit.fill,
                             colorFilter: ColorFilter.mode(
-                              Color.fromRGBO(219, 22, 110, 1),
+                              assetsDirect.homeColor,
                               BlendMode.multiply,
                             ),
                           ),

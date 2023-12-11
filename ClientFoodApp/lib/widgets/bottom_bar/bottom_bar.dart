@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodapp/models/assets_dir/assets_direct.dart';
 import 'package:foodapp/screen/favorite_page/favorite_page.dart';
 import 'package:foodapp/screen/notification_page/notification_page.dart';
 import 'package:foodapp/screen/order_history_page/order_history_page.dart';
@@ -58,9 +59,9 @@ class _BottomBarState extends State<BottomBar> {
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Image.asset(
-                  "assets/bottomBar/meal.png",
+                  assetsDirect.iconMealBottom,
                   color: widget.tab == tab1
-                      ? const Color.fromRGBO(219, 22, 110, 1)
+                      ? assetsDirect.homeColor
                       : const Color.fromRGBO(196, 196, 196, 1),
                 ),
               ),
@@ -79,9 +80,9 @@ class _BottomBarState extends State<BottomBar> {
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Image.asset(
-                  "assets/bottomBar/list.png",
+                  assetsDirect.iconListBottom,
                   color: widget.tab == tab2
-                      ? const Color.fromRGBO(219, 22, 110, 1)
+                      ? assetsDirect.homeColor
                       : const Color.fromRGBO(196, 196, 196, 1),
                 ),
               ),
@@ -100,9 +101,9 @@ class _BottomBarState extends State<BottomBar> {
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Image.asset(
-                  "assets/bottomBar/heart.png",
+                  assetsDirect.iconHeartBottom,
                   color: widget.tab == tab3
-                      ? const Color.fromRGBO(219, 22, 110, 1)
+                      ? assetsDirect.homeColor
                       : const Color.fromRGBO(196, 196, 196, 1),
                 ),
               ),
@@ -121,9 +122,9 @@ class _BottomBarState extends State<BottomBar> {
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Image.asset(
-                  "assets/bottomBar/note.png",
+                  assetsDirect.iconNoticeBottom,
                   color: widget.tab == tab4
-                      ? const Color.fromRGBO(219, 22, 110, 1)
+                      ? assetsDirect.homeColor
                       : const Color.fromRGBO(196, 196, 196, 1),
                 ),
               ),
@@ -142,9 +143,9 @@ class _BottomBarState extends State<BottomBar> {
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Image.asset(
-                  "assets/bottomBar/person.png",
+                  assetsDirect.iconProfileBottom,
                   color: widget.tab == tab5
-                      ? const Color.fromRGBO(219, 22, 110, 1)
+                      ? assetsDirect.homeColor
                       : const Color.fromRGBO(196, 196, 196, 1),
                 ),
               ),

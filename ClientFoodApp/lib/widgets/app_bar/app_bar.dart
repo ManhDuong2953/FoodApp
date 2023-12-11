@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodapp/models/assets_dir/assets_direct.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -8,7 +9,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: const Color.fromRGBO(219, 22, 110, 1),
+      backgroundColor: assetsDirect.homeColor,
       toolbarHeight: 60,
       centerTitle: true,
       title: Text(

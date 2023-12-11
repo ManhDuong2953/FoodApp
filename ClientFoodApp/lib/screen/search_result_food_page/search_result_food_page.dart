@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:foodapp/api/food.api.dart';
-import 'package:foodapp/models/assets_direct.dart';
+import 'package:foodapp/models/assets_dir/assets_direct.dart';
 import 'package:foodapp/models/entities/food.entity..dart';
 import 'package:foodapp/models/enums/loadStatus.dart';
 import 'package:foodapp/widgets/item_list_result_food/item_list_result_food.dart';
@@ -72,7 +72,7 @@ class _SearchResultFoodScreenState extends State<SearchResultFoodScreen> {
           Container(
             height: 85,
             decoration: const BoxDecoration(
-              color: Color.fromRGBO(219, 22, 110, 1),
+              color: assetsDirect.homeColor,
             ),
             padding: const EdgeInsets.symmetric(horizontal: 17),
             child: Row(

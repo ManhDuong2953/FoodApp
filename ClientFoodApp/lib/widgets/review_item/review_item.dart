@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodapp/models/assets_dir/assets_direct.dart';
 import 'package:foodapp/widgets/star/star.dart';
 import 'package:intl/intl.dart';
 
@@ -35,8 +36,7 @@ class ReviewItem extends StatelessWidget {
                 flex: 1,
                 child: ClipOval(
                   child: Image.network(
-                    avatarThumbnail ??
-                        "https://e7.pngegg.com/pngimages/321/641/png-clipart-load-the-map-loading-load.png",
+                    avatarThumbnail ?? assetsDirect.errFood,
                     height: 60,
                     fit: BoxFit.cover,
                   ),

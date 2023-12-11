@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import 'package:foodapp/models/assets_direct.dart';
+import 'package:foodapp/models/assets_dir/assets_direct.dart';
 import 'package:foodapp/screen/detail_product_page/detail_product_page.dart';
 import 'package:foodapp/widgets/star/star.dart';
 
@@ -106,7 +106,7 @@ class ItemListFavorites extends StatelessWidget {
                         maxLines: 4,
                         textAlign: TextAlign.start,
                         style: const TextStyle(
-                          color: Color.fromRGBO(219, 22, 110, 1),
+                          color: assetsDirect.homeColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                         ),

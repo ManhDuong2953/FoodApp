@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:foodapp/api/user.api.dart';
-import 'package:foodapp/models/assets_direct.dart';
+import 'package:foodapp/models/assets_dir/assets_direct.dart';
 import 'package:foodapp/models/entities/user.entity.dart';
 import 'package:foodapp/models/enums/loadStatus.dart';
 import 'package:foodapp/screen/search_food/search_food.dart';

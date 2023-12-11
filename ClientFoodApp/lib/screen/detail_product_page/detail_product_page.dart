@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:foodapp/api/food.api.dart';
 import 'package:foodapp/api/review.api.dart';
-import 'package:foodapp/models/assets_direct.dart';
+import 'package:foodapp/models/assets_dir/assets_direct.dart';
 import 'package:foodapp/models/entities/review.entity..dart';
 import 'package:foodapp/models/enums/loadStatus.dart';
 import 'package:foodapp/screen/order_page/order_page.dart';
@@ -184,7 +184,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 18,
-                                    color: Color.fromRGBO(219, 22, 110, 1),
+                                    color: assetsDirect.homeColor,
                                   ),
                                 ),
                               ),
@@ -239,8 +239,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 10),
                                           decoration: BoxDecoration(
-                                            color: const Color.fromRGBO(
-                                                219, 22, 110, 1),
+                                            color: assetsDirect.homeColor,
                                             borderRadius:
                                                 BorderRadius.circular(4),
                                           ),

@@ -6,5 +6,6 @@ class ApiUser {
   static String postLoginEndpoint = '$baseUrl/login';
   static String postSignupEndpoint = '$baseUrl/signup';
   static String getUserEndpoint(int id) => '$baseUrl/info/$id';
+  static String postAvatarUserEndpoint(int id) => '$baseUrl/upload/avartar/$id';
   static String postUpdateUserEndpoint = '$baseUrl/update/info';
 }

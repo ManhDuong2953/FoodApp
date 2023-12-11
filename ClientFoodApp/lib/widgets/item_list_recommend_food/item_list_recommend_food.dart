@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:foodapp/models/assets_dir/assets_direct.dart';
 import 'package:foodapp/screen/detail_product_page/detail_product_page.dart';
 import 'package:foodapp/widgets/star/star.dart';
 
@@ -52,8 +53,7 @@ class ItemListRecommendFood extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Image.network(
-                              imageUrl ??
-                                  "https://e7.pngegg.com/pngimages/321/641/png-clipart-load-the-map-loading-load.png",
+                              imageUrl ?? assetsDirect.errFood,
                               fit: BoxFit.cover,
                               height: 60,
                               width: 60,

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:foodapp/api/food.api.dart';
 import 'package:foodapp/api/order.api.dart';
-import 'package:foodapp/models/assets_direct.dart';
+import 'package:foodapp/models/assets_dir/assets_direct.dart';
 import 'package:foodapp/models/entities/order.entity.dart';
 import 'package:foodapp/models/enums/loadStatus.dart';
 import 'package:foodapp/screen/order_history_page/order_history_page.dart';
@@ -241,7 +241,7 @@ class _OrderScreenState extends State<OrderScreen> {
                             ),
                             Text("\$ ${foodEntity?.price}",
                                 style: const TextStyle(
-                                  color: Color.fromRGBO(219, 22, 110, 1),
+                                  color: assetsDirect.homeColor,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
                                 )),
@@ -285,7 +285,7 @@ class _OrderScreenState extends State<OrderScreen> {
                             ),
                             Text("\$ 1.5",
                                 style: TextStyle(
-                                  color: Color.fromRGBO(219, 22, 110, 1),
+                                  color: assetsDirect.homeColor,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
                                 )),
@@ -311,7 +311,7 @@ class _OrderScreenState extends State<OrderScreen> {
                               Text(
                                 "\$ $_totalPrice",
                                 style: const TextStyle(
-                                    color: Color.fromRGBO(219, 22, 110, 1),
+                                    color: assetsDirect.homeColor,
                                     fontSize: 17,
                                     fontWeight: FontWeight.w600),
                               ),
@@ -337,7 +337,7 @@ class _OrderScreenState extends State<OrderScreen> {
             },
             child: Container(
               height: 50,
-              color: const Color.fromRGBO(219, 22, 110, 1),
+              color: assetsDirect.homeColor,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:foodapp/api/review.api.dart';
+import 'package:foodapp/models/assets_dir/assets_direct.dart';
 import 'package:foodapp/models/entities/review.entity..dart';
 import 'package:foodapp/models/enums/loadStatus.dart';
 import 'package:foodapp/screen/detail_product_page/detail_product_page.dart';
@@ -126,7 +127,7 @@ class _ReviewInputScreenState extends State<ReviewInputScreen> {
                 const SizedBox(height: 20),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromRGBO(219, 22, 110, 1),
+                      backgroundColor: assetsDirect.homeColor,
                       padding: const EdgeInsets.symmetric(
                           vertical: 10, horizontal: 20)),
                   onPressed: () {

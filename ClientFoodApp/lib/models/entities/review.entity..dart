@@ -1,3 +1,5 @@
+import 'package:foodapp/models/assets_dir/assets_direct.dart';
+
 class Review {
   int? idFood;
   int? idUser;
@@ -20,7 +22,7 @@ class Review {
     idFood = json['food_id'];
     idUser = json['user_id'];
     name = json['name'] ?? "Người dùng FoodApp";
-    avatarThumbnail = json['avatar_thumbnail'] ?? "assets/images/errorAvt.png";
+    avatarThumbnail = json['avatar_thumbnail'] ?? assetsDirect.errAvt;
     reviewsDatetime = json['reviews_datetime'] ?? "";
     rate = int.parse(json['rate'].toString()) ?? 5;
     comment = json['comment'] ?? "";

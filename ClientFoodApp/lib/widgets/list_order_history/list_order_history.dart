@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:flutter_svg/svg.dart";
+import 'package:foodapp/models/assets_dir/assets_direct.dart';
 import 'package:foodapp/screen/detail_product_page/detail_product_page.dart';
 import 'package:foodapp/screen/review_page/review_page.dart';
 
@@ -72,8 +73,7 @@ class ListOrderHistory extends StatelessWidget {
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(15)),
                             child: Image.network(
-                              imageUrl ??
-                                  "https://e7.pngegg.com/pngimages/321/641/png-clipart-load-the-map-loading-load.png",
+                              imageUrl ?? assetsDirect.errFood,
                               height: 80,
                               width: 100,
                               fit: BoxFit.cover,
@@ -109,7 +109,7 @@ class ListOrderHistory extends StatelessWidget {
                                 Text(
                                   "\$ $price",
                                   style: const TextStyle(
-                                    color: Color.fromRGBO(219, 22, 110, 1),
+                                    color: assetsDirect.homeColor,
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
                                   ),
@@ -191,7 +191,7 @@ class ListOrderHistory extends StatelessWidget {
                         ),
                         Text("\$ $totalPrice",
                             style: const TextStyle(
-                                color: Color.fromRGBO(219, 22, 110, 1),
+                                color: assetsDirect.homeColor,
                                 fontSize: 17,
                                 fontWeight: FontWeight.w600)),
                       ],
