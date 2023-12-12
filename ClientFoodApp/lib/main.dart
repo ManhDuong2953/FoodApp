@@ -8,7 +8,12 @@ import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(
+      options: FirebaseOptions(
+          apiKey: "AIzaSyD5r2KFzMl6DhG5rPhvs0NaMxF2-k8nqgU",
+          appId: "1:1049574017574:android:e767488b8b0c64e28cb4e7",
+          messagingSenderId: "1049574017574",
+          projectId: "foodapp-177a2"));
   String? token = await ApiFCM.getFirebaseMessagingToken();
   print("FCM Token: $token");
   await dotenv.load();
