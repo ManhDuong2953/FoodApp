@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:foodapp/api/fcm.dart';
 import 'package:foodapp/screen/home_page/home_page.dart';
 import 'package:foodapp/screen/login_page/login_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  String? token = await ApiFCM.getFirebaseMessagingToken();
+  print("FCM Token: $token");
   await dotenv.load();
   runApp(const MyApp());
 }
