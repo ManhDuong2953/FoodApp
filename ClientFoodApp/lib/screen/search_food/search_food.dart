@@ -96,10 +96,10 @@ class _SearchFoodScreenState extends State<SearchFoodScreen> {
 
   Widget _buildSearchBar() {
     return Container(
-      height: 85,
+      height: 110,
       color: assetsDirect.homeColor,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 17),
+        padding: const EdgeInsets.only(top: 20, left: 17),
         child: Row(
           children: [
             Expanded(

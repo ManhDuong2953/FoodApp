@@ -3,17 +3,22 @@ import UploadCloudinary from "../../../configs/cloud/cloudinary.config";
 // Chú ý: không sử dụng từ khóa "async" trực tiếp trước từ khóa "export"
 export const userLogin = async (req, res) => {
     try {
-        const result = await Users.checkLogin({
-            phone_number: req.body.phone_number,
-            password: req.body.password
-        });
-        // Xử lý kết quả ở đây, ví dụ trả về response JSON
-        if (result) {
-            console.log(result["id"]);
-            res.status(200).json({ success: true, data: result["id"] });
 
+        // Xử lý kết quả ở đây, ví dụ trả về response JSON
+        if (!req.body.phone_number || !req.body.password) {
+            res.status(401).json({ success: false, message: "Please fill infomation" });
         } else {
-            res.status(401).json({ success: false, message: "Phone number or password is incorrect" });
+            const result = await Users.checkLogin({
+                phone_number: req.body.phone_number,
+                password: req.body.password
+            });
+            if (result) {
+                console.log(result["id"]);
+                res.status(200).json({ success: true, data: result["id"] });
+
+            } else {
+                res.status(401).json({ success: false, message: "Phone number or password is incorrect" });
+            }
         }
     } catch (error) {
         console.error(error.message);
@@ -24,20 +29,25 @@ export const userLogin = async (req, res) => {
 
 export const userSignup = async (req, res) => {
     try {
-        const checkPhoneNumber = await Users.checkPhoneNumber(req.body.phone_number);
-
-        if (checkPhoneNumber) {
-            res.status(400).json({ success: false, message: "Phone number is already used by another account" });
+        if (!req.body.phone_number || !req.body.name || !req.body.address || !req.body.password) {
+            res.status(401).json({ success: false, message: "Please fill all infomation" });
         } else {
-            const newUser = await Users.signUpAction({
-                name: req.body.name,
-                phone_number: req.body.phone_number,
-                address: req.body.address,
-                password: req.body.password,
-                avatar_thumbnail: "https://cdn-icons-png.flaticon.com/512/186/186313.png",
-            });
-
-            res.status(200).json({ success: true, message: "Đăng ký thành công" });
+            if (req.body.phone_number) {
+                const checkPhoneNumber = await Users.checkPhoneNumber(req.body.phone_number);
+                if (checkPhoneNumber) {
+                    res.status(400).json({ success: false, message: "Phone number is already used by another account" });
+                }
+                else {
+                    await Users.signUpAction({
+                        name: req.body.name,
+                        phone_number: req.body.phone_number,
+                        address: req.body.address,
+                        password: req.body.password,
+                        avatar_thumbnail: "https://cdn-icons-png.flaticon.com/512/186/186313.png",
+                    });
+                    res.status(200).json({ success: true, message: "Đăng ký thành công" });
+                }
+            }
         }
     } catch (error) {
         console.error(error.message);
@@ -78,6 +88,7 @@ export const postUpdateUserInfo = async (req, res) => {
         });
 
         console.log(req.file);
+
         if (updateInfo) {
             res.status(200).json({ success: true, message: "Cập nhật thành công" });
         } else {

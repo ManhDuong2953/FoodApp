@@ -9,13 +9,15 @@ import 'package:firebase_core/firebase_core.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-      options: FirebaseOptions(
+      options: const FirebaseOptions(
           apiKey: "AIzaSyD5r2KFzMl6DhG5rPhvs0NaMxF2-k8nqgU",
           appId: "1:1049574017574:android:e767488b8b0c64e28cb4e7",
           messagingSenderId: "1049574017574",
           projectId: "foodapp-177a2"));
   String? token = await ApiFCM.getFirebaseMessagingToken();
   print("FCM Token: $token");
+  ApiFCM.initializeFirebaseMessaging();
+
   await dotenv.load();
   runApp(const MyApp());
 }
@@ -44,13 +46,15 @@ class _MyAppWrapperState extends State<MyAppWrapper> {
   @override
   void initState() {
     super.initState();
-
-    // Delay for 3 seconds and then navigate to OrderScreen
-    Future.delayed(const Duration(seconds: 2), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
-      );
+    // Chờ lấy FCM token và sau đó chuyển hướng
+    ApiFCM.getFirebaseMessagingToken().then((token) {
+      print("FCM Token: $token");
+      Future.delayed(const Duration(seconds: 2), () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
+        );
+      });
     });
   }
 

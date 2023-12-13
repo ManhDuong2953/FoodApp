@@ -121,7 +121,7 @@ class _OrderScreenState extends State<OrderScreen> {
               children: [
                 Container(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 0, horizontal: 17),
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 17),
                   child: Column(
                     children: [
                       loadFoodStatus == LoadStatus.loading
