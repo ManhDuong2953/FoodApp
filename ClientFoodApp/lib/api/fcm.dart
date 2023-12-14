@@ -74,8 +74,6 @@ class ApiFCM {
           body: message.notification!.body ?? "",
         );
         print("==========>>>>>>THÔNG BÁO ĐÃ ĐƯỢC GỌI<============");
-        // hanfdle fetch post notification to database
-
         try {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           String? idUser = prefs.getString('idUser') ?? '';

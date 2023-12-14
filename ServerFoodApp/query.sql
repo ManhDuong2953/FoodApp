@@ -44,8 +44,8 @@ CREATE TABLE reviews (
 CREATE TABLE notices (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT,
-    title_notifi varchar(1000) default "",
-    notices_message varchar(1000) default "",
+    title_notifi text ,
+    notices_message text,
     notices_datetime DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
 );

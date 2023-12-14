@@ -102,7 +102,7 @@ class _OrderScreenState extends State<OrderScreen> {
 
         await ApiFCM.sendPushNotification(
             token!,
-            "Đơn hàng đã được đặt thành côngg",
+            "Đơn hàng đã được đặt thành công",
             "Món ăn ${foodEntity?.name} (x${orderEntity?.quantity}) đang trên đường giao đến bạn. \nVui lòng thanh toán \$ ${orderEntity?.totalPrice} cho người vận chuyển ");
 
         Navigator.push(

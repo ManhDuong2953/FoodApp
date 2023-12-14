@@ -32,9 +32,9 @@ class ItemListNotification extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Image.network(
-                      "https://cdn.pixabay.com/photo/2020/03/12/11/43/bell-4924849_960_720.png",
-                      height: 40,
-                      width: 40,
+                      "https://www.pngall.com/wp-content/uploads/11/Youtube-Bell-Icon-Button-PNG-Cutout.png",
+                      height: 60,
+                      width: 60,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -47,30 +47,35 @@ class ItemListNotification extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Expanded(
-                                child: Text(
-                                  titleNotifi,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 4,
-                                  style: const TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.green),
-                                ),
+                              Text(
+                                titleNotifi,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 4,
+                                style: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.green),
                               ),
                             ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: Text(
-                              noticesMessage,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 4,
-                              style: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400,
+                          Row(
+                            children: [
+                              Flexible(
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8.0),
+                                  child: Text(
+                                    noticesMessage,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 4,
+                                    style: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
