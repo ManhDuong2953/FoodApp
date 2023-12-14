@@ -15,10 +15,9 @@ Future<void> main() async {
           appId: "1:1049574017574:android:e767488b8b0c64e28cb4e7",
           messagingSenderId: "1049574017574",
           projectId: "foodapp-177a2"));
-  String? token = await ApiFCM.getFirebaseMessagingToken();
-  print("FCM Token: $token");
+
+
   ApiFCM.initializeFirebaseMessaging();
-  // await ApiFCM.sendPushNotification(token!, "title", "bodyText");
 
   // Initialize the notification service
   WidgetsFlutterBinding.ensureInitialized();

@@ -9,6 +9,7 @@ import 'package:foodapp/screen/signup_page/signup_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../api/fcm.dart';
 import '../../models/entities/user.entity.dart';
 import '../../services/notifi_services.dart';
 
@@ -209,6 +210,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         child: const Text('Sign up'),
                       ),
+                      ElevatedButton(
+                          onPressed: () async {
+                            String? token =
+                                await ApiFCM.getFirebaseMessagingToken();
+
+                            ApiFCM.sendPushNotification(
+                                token!, "title", "bodyText");
+                          },
+                          child: Text("click"))
                     ],
                   ),
                 ],

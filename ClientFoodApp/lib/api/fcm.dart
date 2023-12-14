@@ -28,7 +28,6 @@ class ApiFCM {
         "notification": {
           "title": title,
           "body": bodyText,
-          "android_channel_id": "notifications",
         },
       };
 
@@ -43,6 +42,19 @@ class ApiFCM {
       );
       print('Response status: ${res.statusCode}');
       print('Response body: ${res.body}');
+
+      // Kiểm tra kết quả gửi thông báo
+      if (res.statusCode == 200) {
+        // Nếu gửi thành công, in ra thông tin từ response
+        var responseJson = json.decode(res.body);
+        var title = responseJson['notification']['title'];
+        var body = responseJson['notification']['body'];
+
+        print('Title: $title');
+        print('Body: $body');
+      } else {
+        print('Failed to send notification');
+      }
     } catch (e) {
       print('\nsendPushNotificationE: $e');
     }
@@ -50,14 +62,15 @@ class ApiFCM {
 
   static void initializeFirebaseMessaging() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print('Got a message whilst in the foreground!');
-      print('Message data: ${message.data}');
-
       if (message.notification != null) {
         NotificationService().showBigTextNotification(
           title: message.notification!.title ?? "",
           body: message.notification!.body ?? "",
         );
+
+        print(
+            "=======================================================================>>>>>>THÔNG BÁO ĐÃ ĐƯỢC GỌI<======================================");
+        // hanfdle fetch post notification to database
       }
     });
   }
