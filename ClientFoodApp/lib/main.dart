@@ -5,6 +5,7 @@ import 'package:foodapp/api/fcm.dart';
 import 'package:foodapp/screen/home_page/home_page.dart';
 import 'package:foodapp/screen/login_page/login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:foodapp/services/notifi_services.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,6 +18,11 @@ Future<void> main() async {
   String? token = await ApiFCM.getFirebaseMessagingToken();
   print("FCM Token: $token");
   ApiFCM.initializeFirebaseMessaging();
+  // await ApiFCM.sendPushNotification(token!, "title", "bodyText");
+
+  // Initialize the notification service
+  WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService().initialize();
 
   await dotenv.load();
   runApp(const MyApp());
@@ -46,15 +52,11 @@ class _MyAppWrapperState extends State<MyAppWrapper> {
   @override
   void initState() {
     super.initState();
-    // Chờ lấy FCM token và sau đó chuyển hướng
-    ApiFCM.getFirebaseMessagingToken().then((token) {
-      print("FCM Token: $token");
-      Future.delayed(const Duration(seconds: 2), () {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginScreen()),
-        );
-      });
+    Future.delayed(const Duration(seconds: 2), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+      );
     });
   }
 

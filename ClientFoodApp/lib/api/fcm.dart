@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart';
 
+import '../services/notifi_services.dart';
+
 class ApiFCM {
   static Future<String?> getFirebaseMessagingToken() async {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -39,7 +41,6 @@ class ApiFCM {
         },
         body: jsonEncode(requestBody),
       );
-
       print('Response status: ${res.statusCode}');
       print('Response body: ${res.body}');
     } catch (e) {
@@ -53,7 +54,10 @@ class ApiFCM {
       print('Message data: ${message.data}');
 
       if (message.notification != null) {
-        print('Message also contained a notification: ${message.notification}');
+        NotificationService().showBigTextNotification(
+          title: message.notification!.title ?? "",
+          body: message.notification!.body ?? "",
+        );
       }
     });
   }

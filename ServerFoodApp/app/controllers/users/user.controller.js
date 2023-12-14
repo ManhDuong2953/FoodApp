@@ -14,7 +14,7 @@ export const userLogin = async (req, res) => {
             });
             if (result) {
                 console.log(result["id"]);
-                res.status(200).json({ success: true, data: result["id"] });
+                res.status(200).json({ success: true, data: {id:result["id"],name:result["name"] }});
 
             } else {
                 res.status(401).json({ success: false, message: "Phone number or password is incorrect" });

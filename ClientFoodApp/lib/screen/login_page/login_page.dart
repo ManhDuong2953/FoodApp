@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:foodapp/api/user.api.dart';
 import 'package:foodapp/models/assets_dir/assets_direct.dart';
 import 'package:foodapp/models/enums/loadStatus.dart';
@@ -9,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/entities/user.entity.dart';
+import '../../services/notifi_services.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -44,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       var resBody = json.decode(response.body);
       if (response.statusCode == 200) {
-        var idUser = resBody['data'].toString();
+        var idUser = resBody['data']['id'].toString();
         SharedPreferences.setMockInitialValues({});
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('idUser', idUser);
@@ -52,12 +54,18 @@ class _LoginScreenState extends State<LoginScreen> {
         setState(() {
           loadStatus = LoadStatus.success;
         });
+        await NotificationService().showBigTextNotification(
+          title: "Đăng nhập thành công",
+          body:
+              "Chào ${resBody['data']['name'] ?? 'bạn'}, chúc mừng bạn đã đăng nhập thành công. Hãy đặt món thỏa thích cùng FoodApp với những voucher cực hấp dẫn nhé",
+        );
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => const SearchPage(),
           ),
         );
+
         // String userId = prefs.getString('idUser') ?? '';
       } else {
         setState(() {
@@ -165,8 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 _login(context);
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    assetsDirect.homeColor,
+                                backgroundColor: assetsDirect.homeColor,
                               ),
                               child: loadStatus == LoadStatus.loading
                                   ? const CircularProgressIndicator(
@@ -198,8 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           );
                         },
                         style: TextButton.styleFrom(
-                          foregroundColor:
-                              assetsDirect.homeColor,
+                          foregroundColor: assetsDirect.homeColor,
                         ),
                         child: const Text('Sign up'),
                       ),
