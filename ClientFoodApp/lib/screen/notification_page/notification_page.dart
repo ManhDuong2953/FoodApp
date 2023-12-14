@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:foodapp/api/notice.api.dart';
 import 'package:foodapp/api/order.api.dart';
 import 'package:foodapp/models/entities/notice.entity.dart';
 import 'package:foodapp/models/enums/loadStatus.dart';
@@ -34,7 +35,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? idUser = prefs.getString('idUser') ?? '';
-      String apiUrl = ApiOrder.getNoticeEndpoint(int.parse(idUser));
+      String apiUrl = ApiNotices.getNoticeEndpoint(int.parse(idUser));
       final response = await http.get(
         Uri.parse(apiUrl),
       );
@@ -42,7 +43,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       if (response.statusCode == 200) {
         final List<Map<String, dynamic>> data =
             List<Map<String, dynamic>>.from(jsonDecode(response.body)["data"]);
-
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>${data[0]}");
         if (data.isNotEmpty) {
           setState(() {
             loadStatus = LoadStatus.success;
@@ -93,12 +94,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           itemBuilder: (BuildContext context, int index) {
                             final itemNotice = noticeList[index];
                             return ItemListNotification(
-                              orderID: itemNotice.orderId!,
+                              id: itemNotice.id!,
+                              userId: itemNotice.userId!,
+                              titleNotifi: itemNotice.titleNotifi!,
                               noticesMessage: itemNotice.noticesMessage!,
-                              foodImage: itemNotice.foodImage!,
-                              foodName: itemNotice.foodName!,
-                              quantity: itemNotice.quantity!,
-                              time: itemNotice.noticesDatetime!,
+                              noticesDatetime: itemNotice.noticesDatetime!,
                             );
                           },
                         ),

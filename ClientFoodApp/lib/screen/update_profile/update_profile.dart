@@ -14,6 +14,7 @@ import '../../models/enums/loadStatus.dart';
 
 import 'package:http/http.dart' as http;
 
+import '../../services/notifi_services.dart';
 import '../../widgets/app_bar/app_bar.dart';
 import '../../widgets/select_image/select_image_widget.dart';
 
@@ -176,6 +177,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
         setState(() {
           loadUpdate = LoadStatus.success;
         });
+        await NotificationService().showBigTextNotification(
+          title: "Cập nhật thành công",
+          body: "Thông tin của bạn đã được cập thành công!",
+        );
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const PersonScreen()),

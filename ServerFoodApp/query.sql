@@ -47,7 +47,6 @@ CREATE TABLE notices (
     title_notifi varchar(1000) default "",
     notices_message varchar(1000) default "",
     notices_datetime DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (food_id) REFERENCES food(id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 

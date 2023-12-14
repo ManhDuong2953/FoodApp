@@ -210,15 +210,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         child: const Text('Sign up'),
                       ),
-                      ElevatedButton(
-                          onPressed: () async {
-                            String? token =
-                                await ApiFCM.getFirebaseMessagingToken();
-
-                            ApiFCM.sendPushNotification(
-                                token!, "title", "bodyText");
-                          },
-                          child: Text("click"))
                     ],
                   ),
                 ],

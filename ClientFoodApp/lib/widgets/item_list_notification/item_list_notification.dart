@@ -2,21 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class ItemListNotification extends StatelessWidget {
-  final int orderID;
+  final int id;
+  final int userId;
+  final String titleNotifi;
   final String noticesMessage;
-  final String foodImage;
-  final String foodName;
-  final int quantity;
-  final DateTime time;
+  final DateTime noticesDatetime;
 
   const ItemListNotification({
     super.key,
-    required this.orderID,
+    required this.id,
+    required this.userId,
+    required this.titleNotifi,
+    required this.noticesDatetime,
     required this.noticesMessage,
-    required this.foodImage,
-    required this.foodName,
-    required this.quantity,
-    required this.time,
   });
 
   @override
@@ -31,103 +29,66 @@ class ItemListNotification extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.network(
-                    foodImage,
-                    height: 59,
-                    width: 59,
-                    fit: BoxFit.cover,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.network(
+                      "https://cdn.pixabay.com/photo/2020/03/12/11/43/bell-4924849_960_720.png",
+                      height: 40,
+                      width: 40,
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                  noticesMessage == "success"
-                      ? Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 15),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Order Success (ĐH$orderID - $foodName x$quantity)",
-                                      style: const TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.green),
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8.0),
-                                  child: Text(
-                                    "Invoice ĐH$orderID has been created, the order has been transferred to the shipping unit.",
-                                    style: const TextStyle(
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  titleNotifi,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 4,
+                                  style: const TextStyle(
                                       fontSize: 15,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.green),
                                 ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      DateFormat('dd/MM/yyyy').format(time),
-                                      style: const TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                          color: Color.fromRGBO(95, 95, 95, 1)),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Text(
+                              noticesMessage,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 4,
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
                           ),
-                        )
-                      : Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 15),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Order Error (ĐH$orderID - $foodName x$quantity)",
-                                      style: const TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.red),
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8.0),
-                                  child: Text(
-                                    "Invoice ĐH$orderID has been canceled, possibly due to overbooking, please reorder",
-                                    style: const TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      DateFormat('dd/MM/yyyy').format(time),
-                                      style: const TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                          color: Color.fromRGBO(95, 95, 95, 1)),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                DateFormat('dd/MM/yyyy')
+                                    .format(noticesDatetime),
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color.fromRGBO(95, 95, 95, 1)),
+                              ),
+                            ],
                           ),
-                        )
+                        ],
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),

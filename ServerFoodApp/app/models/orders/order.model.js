@@ -22,8 +22,7 @@ class Orders {
             const updateSql = "UPDATE food SET total_orders = total_orders + ? WHERE id = ?;";
             await pool.query(updateSql, [params.quantity, params.food_id]);
 
-            const noticeSql = "INSERT INTO notices (food_id, user_id, notices_message) VALUES (?, ?, 'success');";
-            await pool.query(noticeSql, [params.food_id, params.user_id ]);
+            
             return true;
 
         } catch (error) {

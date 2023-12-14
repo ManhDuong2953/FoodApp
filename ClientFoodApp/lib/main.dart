@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:foodapp/api/fcm.dart';
 import 'package:foodapp/screen/home_page/home_page.dart';
@@ -16,7 +15,6 @@ Future<void> main() async {
           messagingSenderId: "1049574017574",
           projectId: "foodapp-177a2"));
 
-
   ApiFCM.initializeFirebaseMessaging();
 
   // Initialize the notification service
@@ -32,7 +30,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     return const MaterialApp(
       title: 'FoodApp - Ứng dụng bán đồ ăn nhanh',
       home: MyAppWrapper(),
@@ -64,3 +62,9 @@ class _MyAppWrapperState extends State<MyAppWrapper> {
     return const HomePage();
   }
 }
+
+// String? token =
+//     await ApiFCM.getFirebaseMessagingToken();
+//
+// ApiFCM.sendPushNotification(
+// token!, "title", "bodyText");
