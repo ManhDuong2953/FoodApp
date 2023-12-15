@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:foodapp/api/order.api.dart';
 import 'package:foodapp/models/entities/order.entity.dart';
 import 'package:foodapp/models/enums/loadStatus.dart';
@@ -9,7 +8,6 @@ import 'package:foodapp/widgets/list_order_history/list_order_history.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../widgets/app_bar/app_bar.dart';
-import '../search_food/search_food.dart';
 
 class OrderHistoryScreen extends StatefulWidget {
   const OrderHistoryScreen({super.key});

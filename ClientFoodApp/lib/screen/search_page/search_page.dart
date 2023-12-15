@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:foodapp/api/user.api.dart';
 import 'package:foodapp/models/assets_dir/assets_direct.dart';
 import 'package:foodapp/models/entities/user.entity.dart';
@@ -9,8 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
-
-import '../../services/notifi_services.dart';
 import '../../widgets/bottom_bar/bottom_bar.dart';
 
 class SearchPage extends StatefulWidget {

@@ -70,11 +70,11 @@ class _SearchResultFoodScreenState extends State<SearchResultFoodScreen> {
       body: Column(
         children: [
           Container(
-            height: 110,
+            height: 90,
             decoration: const BoxDecoration(
               color: assetsDirect.homeColor,
             ),
-            padding: const EdgeInsets.only(left: 17, top: 20, right: 17),
+            padding: const EdgeInsets.only(left: 17, right: 17),
             child: Row(
               children: [
                 SizedBox(
@@ -104,9 +104,10 @@ class _SearchResultFoodScreenState extends State<SearchResultFoodScreen> {
                       );
                     },
                     child: Container(
+                      padding: const EdgeInsets.all(2),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(5),
                       ),
                       child: const Row(
                         children: [

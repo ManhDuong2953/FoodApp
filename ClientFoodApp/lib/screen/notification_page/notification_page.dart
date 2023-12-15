@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:foodapp/api/notice.api.dart';
-import 'package:foodapp/api/order.api.dart';
 import 'package:foodapp/models/entities/notice.entity.dart';
 import 'package:foodapp/models/enums/loadStatus.dart';
 import 'package:foodapp/widgets/bottom_bar/bottom_bar.dart';
