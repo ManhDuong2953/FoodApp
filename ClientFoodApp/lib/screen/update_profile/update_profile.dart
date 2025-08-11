@@ -353,7 +353,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             pushData();
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: assetsDirect.homeColor,
+                            backgroundColor: assetsDirect.homeColor,
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(15.0),
